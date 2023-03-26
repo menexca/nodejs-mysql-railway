@@ -5,7 +5,7 @@ import { PORT } from './config.js'
 const app = express()
 
 app.get('/', async (req, res) => {
-  const [rows] = await pool.query('SELECT * FROM pedidos')
+  const [rows] = await pool.query('SELECT * FROM Pedidos')
   res.json(rows)
 })
 

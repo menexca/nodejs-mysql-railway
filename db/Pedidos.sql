@@ -1,7 +1,6 @@
 
-
 CREATE TABLE Pedidos(
-    Numero char(12) NOT NULL PRIMARY KEY,
+    Numero char(12) NOT NULL,
     FechaEmision datetime NOT NULL,
     FechaEntrega datetime NULL,
     CodigoCliente char(20) NULL,
@@ -10,7 +9,7 @@ CREATE TABLE Pedidos(
     Impuesto decimal(10,2) NULL,
     Cargo decimal(10,2) NULL,
     TotalPedido decimal(10,2) NULL,
-    PorcentajeDescuento smallmoney NULL,
+    PorcentajeDescuento decimal(10,2) NULL,
     Vendedor char(5) NULL,
     Comentarios text NULL,
     Tarifa char(5) NULL,
@@ -26,5 +25,5 @@ CREATE TABLE Pedidos(
     Cargo2 decimal(10,2) NULL,
     TotalPedido2 decimal(10,2) NULL,
     IdMoneda int NULL,
-    Registro int NOT NULL AUTO_INCREMENT
+    Registro int NOT NULL PRIMARY KEY AUTO_INCREMENT 
 );
