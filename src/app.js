@@ -5,7 +5,7 @@ import { PORT } from './config.js'
 const app = express()
 
 app.get('/Productos', async (req, res) => {
-  const [rows] = await pool.query('Select P.CodigoProducto, P.Nombre, PP.PrecioMoneda from Productos P left join ProductosPrecios PP on P.CodigoProducto=PP.CodigoProducto where Existencia>0')
+  const [rows] = await pool.query('Select P.CodigoProducto, P.Nombre, PP.PrecioMoneda, P.existencia from Productos P left join ProductosPrecios PP on P.CodigoProducto=PP.CodigoProducto where Existencia>0')
   res.json(rows)
 })
 
