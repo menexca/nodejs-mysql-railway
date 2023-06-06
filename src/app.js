@@ -5,12 +5,22 @@ import { PORT } from './config.js'
 const app = express()
 
 app.get('/Productos', async (req, res) => {
-  const [rows] = await pool.query(`Select P.CodigoProducto, P.Nombre, (case when p.iva='A' then round(PP.PrecioMoneda*1.16,2) else PP.PrecioMoneda end) as PrecioMoneda, P.existencia from Productos P left join ProductosPrecios PP on P.CodigoProducto=PP.CodigoProducto where Existencia>0`)
+  const [rows] = await pool.query(`Select P.CodigoProducto, P.Nombre, (case when P.IVA='A' then round(PP.PrecioMoneda*1.16,2) else PP.PrecioMoneda end) as PrecioMoneda, P.existencia from Productos P left join ProductosPrecios PP on P.CodigoProducto=PP.CodigoProducto where Existencia>0 Order by Nombre`)
   res.json(rows)
 })
 
 app.get('/Clientes', async (req, res) => {
   const [rows] = await pool.query('SELECT CodigoCliente, Nombre, SaldoMonedaTotal, (case when SaldoMonedaVencido>SaldoMonedaTotal then SaldoMonedaTotal else SaldoMonedaVencido end) as SaldoMonedaVencido, date(ultimopago) as ultimopago FROM Clientes Order by SaldoMonedaTotal desc')
+  res.json(rows)
+})
+
+app.get('/Facturas', async (req, res) => {
+  const [rows] = await pool.query('SELECT Numero, FechaEmision, TotalFactura2, Vendedor FROM Facturas WHERE TotalFactura>0 ORDER BY FechaEmision DESC')
+  res.json(rows)
+})
+
+app.get('/Pedidos', async (req, res) => {
+  const [rows] = await pool.query('SELECT Numero, FechaEmision, TotalPedido2, Vendedor FROM Pedidos WHERE TotalPedido>0 ORDER BY FechaEmision DESC')
   res.json(rows)
 })
 
