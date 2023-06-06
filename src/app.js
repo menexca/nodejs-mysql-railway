@@ -15,12 +15,12 @@ app.get('/Clientes', async (req, res) => {
 })
 
 app.get('/Facturas', async (req, res) => {
-  const [rows] = await pool.query('SELECT Numero, FechaEmision, TotalFactura2, Vendedor FROM Facturas WHERE TotalFactura>0 ORDER BY FechaEmision DESC')
+  const [rows] = await pool.query('SELECT Numero, date(FechaEmision) as FechaEmision, TotalFactura2, Vendedor FROM Facturas WHERE TotalFactura>0 ORDER BY FechaEmision DESC')
   res.json(rows)
 })
 
 app.get('/Pedidos', async (req, res) => {
-  const [rows] = await pool.query('SELECT Numero, FechaEmision, TotalPedido2, Vendedor FROM Pedidos WHERE TotalPedido>0 ORDER BY FechaEmision DESC')
+  const [rows] = await pool.query('SELECT Numero, date(FechaEmision) as FechaEmision, TotalPedido2, Vendedor FROM Pedidos WHERE TotalPedido>0 ORDER BY FechaEmision DESC')
   res.json(rows)
 })
 
