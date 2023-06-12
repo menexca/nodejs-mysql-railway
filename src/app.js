@@ -38,7 +38,7 @@ app.post('/Pedidos', async (req, res) => {
     await pool.query(insertQuery, values);
     
     // Envía una respuesta indicando que el pedido se ha creado correctamente
-    res.status(201).json({ message: 'Pedido creado exitosamente' });
+    res.status(200).json({ message: 'Pedido creado exitosamente' });
   } catch (error) {
     // Si ocurre un error durante el proceso de creación del pedido, envía una respuesta de error
     console.error('Error al crear el pedido:', error);
