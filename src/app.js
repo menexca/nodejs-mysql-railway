@@ -36,6 +36,11 @@ app.post('/Pedidos', async (req, res) => {
     const insertQuery = `INSERT INTO Pedidos (Numero, FechaEmision, FechaEntrega, CodigoCliente, TotalBruto, Descuento, Impuesto, Cargo, TotalPedido, PorcentajeDescuento, Vendedor, Comentarios, Tarifa, Almacen, Peso, Estatus, Usuario, Cambio, Moneda, TotalBruto2, Descuento2, Impuesto2, Cargo2, TotalPedido2, Idmoneda) SELECT ?, ?, ?, ?, round(pp.PrecioMoneda*27.02,2)*?, 0, (round(pp.PrecioMoneda*27.02,2)*?)*0.16, 0, (round(pp.PrecioMoneda*27.02,2)*?)*1.16, 0, '012', 'Enviado desde la APP', 'A', '02', round(p.Peso*?,2), 'PE', 'APP', 27.02, 'BsS', pp.PrecioMoneda*?, 0, pp.PrecioMoneda*?*0.16, 0, pp.PrecioMoneda*?*1.16, 2 FROM Productos p left join ProductosPrecios pp on p.CodigoProducto=pp.CodigoProducto where p.CodigoProducto='ZAT01000' and pp.Tarifa='A'`;
     const values = [pedido.Numero, pedido.FechaEmision, pedido.FechaEmision, pedido.CodigoCliente, pedido.Cantidad, pedido.Cantidad, pedido.Cantidad, pedido.Cantidad, pedido.Cantidad, pedido.Cantidad, pedido.Cantidad];
     await pool.query(insertQuery, values);
+
+    const insertQueryRenglones = `INSERT INTO PedidosRenglones (Numero, Almacen, CodigoProducto, Descripcion, UnidadMedida, iva, PorcentajeIva, Bultos, Cantidad, Despacho, Precio, Descuento, TotalRenglon, Estatus, ItemPedido, EstatusDol, DespachoDol, Cambio, Moneda, CantidadxBultos, Tarifa, Precio2, TotalRenglon2) SELECT ?, '02', p.CodigoProducto, Nombre, UnidadMedida, IVA, case when IVA='A' then 16 else 0 end, 1, ?, 0, round(pp.PrecioMoneda*27.02,2), 0, round(pp.PrecioMoneda*27.02,2)*?, 'PE', 1, 'PE', 0, 27.02, 'BsS', 1, 'A', pp.PrecioMoneda, pp.PrecioMoneda*? FROM Productos p left join ProductosPrecios pp on p.CodigoProducto=pp.CodigoProducto where p.CodigoProducto='ZAT01000' and pp.Tarifa='A'`;
+    const valuesRenglones = [pedido.Numero, pedido.Cantidad, pedido.Cantidad, pedido.Cantidad];
+    await pool.query(inseinsertQueryRenglonesrtQuery, valuesRenglones);
+
     
     // Envía una respuesta indicando que el pedido se ha creado correctamente
     res.status(200).json({ message: 'Pedido creado exitosamente' });
