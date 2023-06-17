@@ -8,7 +8,7 @@ app.use(express.json());
 
 
 app.get('/Productos', async (req, res) => {
-  const [rows] = await pool.query(`Select P.CodigoProducto, P.Nombre, (case when P.IVA='A' then round(PP.PrecioMoneda*1.16,2) else PP.PrecioMoneda end) as PrecioMoneda, P.existencia from Productos P left join ProductosPrecios PP on P.CodigoProducto=PP.CodigoProducto where Existencia>0 Order by Nombre`)
+  const [rows] = await pool.query(`Select P.CodigoProducto, P.Nombre, P.IVA, P.CantidadxBulto, P.Existencia, P.PedidoVenta, PP.PrecioMoneda from Productos P left join ProductosPrecios PP on P.CodigoProducto=PP.CodigoProducto where Existencia>0 and Visible=1 Order by Nombre`)
   res.json(rows)
 })
 
