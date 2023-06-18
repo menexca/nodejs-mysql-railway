@@ -31,14 +31,15 @@ app.get('/Pedidos', async (req, res) => {
 app.post('/Pedidos', async (req, res) => {
   try {
     const pedido = req.body; // Obtén los datos del pedido enviados en la solicitud POST
-    
+/*   
     // Realiza la lógica necesaria para insertar el nuevo pedido en la base de datos utilizando los datos proporcionados en 'pedido'
     const insertQuery = `INSERT INTO Pedidos (Numero, FechaEmision, FechaEntrega, CodigoCliente, TotalBruto, Descuento, Impuesto, Cargo, TotalPedido, PorcentajeDescuento, Vendedor, Comentarios, Tarifa, Almacen, Peso, Estatus, Usuario, Cambio, Moneda, TotalBruto2, Descuento2, Impuesto2, Cargo2, TotalPedido2, Idmoneda) SELECT ?, ?, ?, ?, round(pp.PrecioMoneda*27.02,2)*?, 0, (round(pp.PrecioMoneda*27.02,2)*?)*0.16, 0, (round(pp.PrecioMoneda*27.02,2)*?)*1.16, 0, '012', 'Enviado desde la APP', 'A', '02', round(p.Peso*?,2), 'PE', 'APP', 27.02, 'BsS', pp.PrecioMoneda*?, 0, pp.PrecioMoneda*?*0.16, 0, pp.PrecioMoneda*?*1.16, 2 FROM Productos p left join ProductosPrecios pp on p.CodigoProducto=pp.CodigoProducto where p.CodigoProducto='ZAT01000' and pp.Tarifa='A'`;
     const values = [pedido.Numero, pedido.FechaEmision, pedido.FechaEmision, pedido.CodigoCliente, pedido.Cantidad, pedido.Cantidad, pedido.Cantidad, pedido.Cantidad, pedido.Cantidad, pedido.Cantidad, pedido.Cantidad];
     await pool.query(insertQuery, values);
+*/
 
-    const insertQueryRenglones = `INSERT INTO PedidosRenglones (Numero, Almacen, CodigoProducto, Descripcion, UnidadMedida, iva, PorcentajeIva, Bultos, Cantidad, Despacho, Precio, Descuento, TotalRenglon, Estatus, ItemPedido, EstatusDol, DespachoDol, Cambio, Moneda, CantidadxBulto, Tarifa, Precio2, TotalRenglon2) SELECT ?, '02', p.CodigoProducto, Nombre, UnidadMedida, IVA, case when IVA='A' then 16 else 0 end, 1, ?, 0, round(pp.PrecioMoneda*27.02,2), 0, round(pp.PrecioMoneda*27.02,2)*?, 'PE', 1, 'PE', 0, 27.02, 'BsS', 1, 'A', pp.PrecioMoneda, pp.PrecioMoneda*? FROM Productos p left join ProductosPrecios pp on p.CodigoProducto=pp.CodigoProducto where p.CodigoProducto='ZAT01000' and pp.Tarifa='A'`;
-    const valuesRenglones = [pedido.Numero, pedido.Cantidad, pedido.Cantidad, pedido.Cantidad];
+    const insertQueryRenglones = `INSERT INTO PedidosRenglones (Numero, Almacen, CodigoProducto, Descripcion, UnidadMedida, iva, PorcentajeIva, Bultos, Cantidad, Despacho, Precio, Descuento, TotalRenglon, Estatus, ItemPedido, EstatusDol, DespachoDol, Cambio, Moneda, CantidadxBulto, Tarifa, Precio2, TotalRenglon2) SELECT 'AS-'+RTRIM((select Numero from Contadores where Documento='Pedido')), LEFT('?',2), CodigoProducto, Nombre, UnidadMedida, IVA, case when IVA='A' then 16 else 0 end, 1, ?, 0, round(?*(select cambio from MonedasCambio where idmoneda=2 order by fecha desc LIMIT 1),2), 0, round(?*(select cambio from MonedasCambio where idmoneda=2 order by fecha desc LIMIT 1),2), 'PE', ?, 'PE', 0, (select cambio from MonedasCambio where idmoneda=2 order by fecha desc LIMIT 1), 'BsS', 1, LEFT('?',1), ?, ? FROM Productos WHERE CodigoProducto='?'`;
+    const valuesRenglones = [pedido.almacen, pedido.cantidad, pedido.precioMoneda, pedido.totalRenglon, pedido.indice, pedido.tarifa, pedido.precioMoneda, pedido.totalRenglon, pedido.codigoProducto];
     await pool.query(insertQueryRenglones, valuesRenglones);
 
     
