@@ -65,7 +65,7 @@ app.post('/Pedidos', async (req, res) => {
 });
 
 app.get('/ContadorPedido', async (req, res) => {
-  const [rows] = await pool.query(`UPDATE Contadores SET Numero=Numero+1 WHERE Documento = 'Pedido'`)
+  const [rows] = await pool.query(`UPDATE Contadores SET Numero=LPAD(Numero + 1, 5, '0') WHERE Documento = 'Pedido'`)
   res.json(rows)
 })
 
