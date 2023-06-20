@@ -8,7 +8,7 @@ app.use(express.json());
 
 
 app.get('/Productos', async (req, res) => {
-  const [rows] = await pool.query(`Select P.CodigoProducto, P.Nombre, P.IVA, P.CantidadxBulto, P.Existencia, P.PedidoVenta, PP.PrecioMoneda from Productos P left join ProductosPrecios PP on P.CodigoProducto=PP.CodigoProducto where Existencia>0 and Visible=1 Order by Nombre`)
+  const [rows] = await pool.query(`Select P.CodigoProducto, (case when Marca='01002' then CONCAT(CAST((P.CodigoProducto) AS CHAR),' - ',P.Nombre) else P.Nombre end) as Nombre, P.IVA, P.CantidadxBulto, P.Existencia, P.PedidoVenta, PP.PrecioMoneda from Productos P left join ProductosPrecios PP on P.CodigoProducto=PP.CodigoProducto where Existencia>0 and Visible=1 Order by P.Nombre`)
   res.json(rows)
 })
 
@@ -51,7 +51,7 @@ app.post('/Pedidos', async (req, res) => {
     const pedido = req.body; // Obtén los datos del pedido enviados en la solicitud POST
    
     // Realiza la lógica necesaria para insertar el nuevo pedido en la base de datos utilizando los datos proporcionados en 'pedido'
-    const insertQuery = `INSERT INTO Pedidos (Numero, FechaEmision, FechaEntrega, CodigoCliente, TotalBruto, Descuento, Impuesto, Cargo, TotalPedido, PorcentajeDescuento, Vendedor, Comentarios, Tarifa, Almacen, Peso, Estatus, Usuario, Cambio, Moneda, TotalBruto2, Descuento2, Impuesto2, Cargo2, TotalPedido2, Idmoneda) SELECT CONCAT('AS-', CAST((SELECT Numero FROM Contadores WHERE Documento = 'Pedido') AS CHAR)), NOW(), NOW(), ?, round(?*(select cambio from MonedasCambio where idmoneda=2 order by fecha desc LIMIT 1),2), 0, round(?*(select cambio from MonedasCambio where idmoneda=2 order by fecha desc LIMIT 1),2), 0, round(?*(select cambio from MonedasCambio where idmoneda=2 order by fecha desc LIMIT 1),2)+round(?*(select cambio from MonedasCambio where idmoneda=2 order by fecha desc LIMIT 1),2), 0, ?, CONCAT('Enviado desde la APP: ', ?), 'A', '02', 0, 'PE', 'APP', (select cambio from MonedasCambio where idmoneda=2 order by fecha desc LIMIT 1), 'BsS', ?, 0, ?, 0, ?, 2`;
+    const insertQuery = `INSERT INTO Pedidos (Numero, FechaEmision, FechaEntrega, CodigoCliente, TotalBruto, Descuento, Impuesto, Cargo, TotalPedido, PorcentajeDescuento, Vendedor, Comentarios, Tarifa, Almacen, Peso, Estatus, Usuario, Cambio, Moneda, TotalBruto2, Descuento2, Impuesto2, Cargo2, TotalPedido2, Idmoneda) SELECT CONCAT('AS-', CAST((SELECT Numero FROM Contadores WHERE Documento = 'Pedido') AS CHAR)), DATE_SUB(NOW(), INTERVAL 4 HOUR), DATE_SUB(NOW(), INTERVAL 4 HOUR), ?, round(?*(select cambio from MonedasCambio where idmoneda=2 order by fecha desc LIMIT 1),2), 0, round(?*(select cambio from MonedasCambio where idmoneda=2 order by fecha desc LIMIT 1),2), 0, round(?*(select cambio from MonedasCambio where idmoneda=2 order by fecha desc LIMIT 1),2)+round(?*(select cambio from MonedasCambio where idmoneda=2 order by fecha desc LIMIT 1),2), 0, ?, CONCAT('Enviado desde la APP: ', ?), 'A', '02', 0, 'PE', 'APP', (select cambio from MonedasCambio where idmoneda=2 order by fecha desc LIMIT 1), 'BsS', ?, 0, ?, 0, ?, 2`;
     const values = [pedido.codigoCliente, pedido.totalNeto, pedido.totalImpuesto, pedido.totalNeto, pedido.totalImpuesto, pedido.vendedor, pedido.comentario, pedido.totalNeto, pedido.totalImpuesto, pedido.totalPedido];
     await pool.query(insertQuery, values);
     
@@ -69,7 +69,10 @@ app.get('/ContadorPedido', async (req, res) => {
   res.json(rows)
 })
 
-
+app.get('/ContadorPedidoVer', async (req, res) => {
+  const [rows] = await pool.query(`SELECT LPAD(Numero, 5, '0') FROM Contadores WHERE Documento = 'Pedido'`)
+  res.json(rows)
+})
 
 app.get('/ping', async (req, res) => {
   const [result] = await pool.query(`SELECT "hello world" as RESULT`);
