@@ -70,7 +70,7 @@ app.get('/ContadorPedido', async (req, res) => {
 })
 
 app.get('/ContadorPedidoVer', async (req, res) => {
-  const [rows] = await pool.query(`SELECT LPAD(Numero, 5, '0') FROM Contadores WHERE Documento = 'Pedido'`)
+  const [rows] = await pool.query(`SELECT LPAD(Numero, 5, '0') as Numero FROM Contadores WHERE Documento = 'Pedido'`)
   res.json(rows)
 })
 
