@@ -74,6 +74,11 @@ app.get('/ContadorPedidoVer', async (req, res) => {
   res.json(rows)
 })
 
+app.get('/TasaCambio', async (req, res) => {
+  const [rows] = await pool.query(`SELECT cambio FROM MonedasCambio WHERE idmoneda=2 ORDER BY fecha desc LIMIT 1`)
+  res.json(rows)
+})
+
 app.get('/ping', async (req, res) => {
   const [result] = await pool.query(`SELECT "hello world" as RESULT`);
   res.json(result[0])
