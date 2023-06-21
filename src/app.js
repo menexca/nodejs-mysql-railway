@@ -79,6 +79,11 @@ app.get('/TasaCambio', async (req, res) => {
   res.json(rows)
 })
 
+app.get('/Vendedores', async (req, res) => {
+  const [rows] = await pool.query(`SELECT codigo, nombre, Zona, Almacen, rif, nit FROM Vendedores WHERE rif<>''`)
+  res.json(rows)
+})
+
 app.get('/ping', async (req, res) => {
   const [result] = await pool.query(`SELECT "hello world" as RESULT`);
   res.json(result[0])
