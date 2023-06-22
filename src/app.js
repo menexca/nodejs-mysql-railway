@@ -12,9 +12,24 @@ app.get('/Productos', async (req, res) => {
   res.json(rows)
 })
 
+// Obtener todos los clientes
 app.get('/Clientes', async (req, res) => {
   const [rows] = await pool.query('SELECT CodigoCliente, Nombre, SaldoMonedaTotal, (case when SaldoMonedaVencido>SaldoMonedaTotal then SaldoMonedaTotal else SaldoMonedaVencido end) as SaldoMonedaVencido, date(ultimopago) as ultimopago FROM Clientes Order by SaldoMonedaTotal desc')
   res.json(rows)
+})
+
+// Filtrar clientes por vendedor
+app.get('/Clientes/:Vendedor', async (req, res) => {
+  const vendedor = req.params.Vendedor;
+  const query = `SELECT CodigoCliente, Nombre, SaldoMonedaTotal, (case when SaldoMonedaVencido>SaldoMonedaTotal then SaldoMonedaTotal else SaldoMonedaVencido end) as SaldoMonedaVencido, date(ultimopago) as ultimopago FROM Clientes WHERE Vendedor = ? Order by SaldoMonedaTotal desc`;
+  
+  try {
+    const [rows] = await pool.query(query, [vendedor]);
+    res.json(rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error en la consulta' });
+  }
 })
 
 app.get('/Facturas', async (req, res) => {
@@ -80,7 +95,7 @@ app.get('/TasaCambio', async (req, res) => {
 })
 
 app.get('/Vendedores', async (req, res) => {
-  const [rows] = await pool.query(`SELECT codigo, nombre, Zona, Almacen, RTRIM(rif) as rif, RTRIM(nit) as nit FROM Vendedores WHERE rif<>''`)
+  const [rows] = await pool.query(`SELECT codigo, nombre, Zona, Almacen, RTRIM(rif) as rif, RTRIM(nit) as nit FROM Vendedores WHERE nit<>''`)
   res.json(rows)
 })
 
