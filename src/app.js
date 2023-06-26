@@ -95,7 +95,7 @@ app.get('/TasaCambio', async (req, res) => {
 })
 
 app.get('/Vendedores', async (req, res) => {
-  const [rows] = await pool.query(`SELECT codigo, nombre, Zona, Almacen, RTRIM(rif) as rif, RTRIM(nit) as nit FROM Vendedores WHERE nit<>''`)
+  const [rows] = await pool.query(`SELECT codigo, nombre, Zona, Almacen, RTRIM(rif) as rif, RTRIM(nit) as nit FROM Vendedores WHERE nit<>'' ORDER BY nombre`)
   res.json(rows)
 })
 
