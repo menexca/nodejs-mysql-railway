@@ -56,6 +56,20 @@ app.get('/Pedidos/:Vendedor', async (req, res) => {
   }
 })
 
+// Filtrar pedidosrenglon por numeropedido
+app.get('/PedidosRenglones/:Numero', async (req, res) => {
+  const numero = req.params.Numero;
+  const query = `SELECT Numero, Almacen, CodigoProducto, Descripcion, iva, PorcentajeIva, Cantidad, Despacho, Precio2, TotalRenglon2 FROM PedidosRenglones where Numero = ? ORDER BY ItemPedido DESC`;
+  
+  try {
+    const [rows] = await pool.query(query, [numero]);
+    res.json(rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error en la consulta' });
+  }
+})
+
 
 app.post('/PedidosRenglones', async (req, res) => {
   try {
