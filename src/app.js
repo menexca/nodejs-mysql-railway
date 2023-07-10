@@ -21,7 +21,7 @@ app.get('/Clientes', async (req, res) => {
 // Filtrar clientes por vendedor
 app.get('/Clientes/:Vendedor', async (req, res) => {
   const vendedor = req.params.Vendedor;
-  const query = `SELECT CodigoCliente, Nombre, CONCAT(CAST((CodigoCliente) AS CHAR),' ',Nombre) as NombreBusqueda, RazonSocial, Direccion, (case when DiasVisita not in (1,2,3,4,5,6,7) then 8 else DiasVisita end) as DiasVisita, (case when Telefonos='null' then '' else Telefonos end) as Telefonos, IFNULL(LimiteCredito,0) as LimiteCredito, SaldoMonedaTotal, (case when SaldoMonedaVencido>SaldoMonedaTotal then SaldoMonedaTotal else SaldoMonedaVencido end) as SaldoMonedaVencido, date(ultimopago) as ultimopago, ProximoVencer FROM Clientes WHERE Estatus<>'S' and Vendedor = ? Order by SaldoMonedaTotal desc`;
+  const query = `SELECT CodigoCliente, Nombre, CONCAT(CAST((CodigoCliente) AS CHAR),' ',Nombre) as NombreBusqueda, (case when RazonSocial is null then '' else RazonSocial end) as RazonSocial, Direccion, (case when DiasVisita not in (1,2,3,4,5,6,7) then 8 else DiasVisita end) as DiasVisita, (case when Telefonos='null' then '' else Telefonos end) as Telefonos, IFNULL(LimiteCredito,0) as LimiteCredito, SaldoMonedaTotal, (case when SaldoMonedaVencido>SaldoMonedaTotal then SaldoMonedaTotal else SaldoMonedaVencido end) as SaldoMonedaVencido, date(ultimopago) as ultimopago, ProximoVencer FROM Clientes WHERE Estatus<>'S' and Vendedor = ? Order by SaldoMonedaTotal desc`;
   
   try {
     const [rows] = await pool.query(query, [vendedor]);
