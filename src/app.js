@@ -8,8 +8,22 @@ app.use(express.json());
 
 
 app.get('/Productos', async (req, res) => {
-  const [rows] = await pool.query(`Select P.CodigoProducto, P.Nombre, CONCAT(CAST((P.CodigoProducto) AS CHAR),' ',P.Nombre) as NombreBusqueda, P.IVA, P.CantidadxBulto, P.Existencia, P.Existencia02, P.Existencia03, (P.Existencia02 + P.Existencia03) as ExistenciaVenta , (case when P.PedidoVenta is null then 0 else P.PedidoVenta end) as PedidoVenta, (case when PP.PrecioMoneda is null then 0 else PP.PrecioMoneda end) as PrecioMoneda from Productos P left join ProductosPrecios PP on P.CodigoProducto=PP.CodigoProducto where Visible=1 Order by P.CodigoGrupo, P.Marca, P.Nombre`)
+  const [rows] = await pool.query(`Select P.CodigoProducto, P.Nombre, CONCAT(CAST((P.CodigoProducto) AS CHAR),' ',P.Nombre) as NombreBusqueda, P.IVA, P.CantidadxBulto, P.Existencia, IFNULL(P.Existencia02,0) as Existencia02, IFNULL(P.Existencia03,0) as Existencia03, (IFNULL(P.Existencia02,0) + IFNULL(P.Existencia03,0)) as ExistenciaVenta , (case when P.PedidoVenta is null then 0 else P.PedidoVenta end) as PedidoVenta, (case when PP.PrecioMoneda is null then 0 else PP.PrecioMoneda end) as PrecioMoneda from Productos P left join ProductosPrecios PP on P.CodigoProducto=PP.CodigoProducto where Visible=1 Order by P.CodigoGrupo, P.Marca, P.Nombre`)
   res.json(rows)
+})
+
+//Productos iltrados por FechSync
+app.get('/ProductosSync/FechaSync', async (req, res) => {
+  const fechaSync = req.params.FechaSync;
+  const query = `Select P.CodigoProducto, P.Nombre, CONCAT(CAST((P.CodigoProducto) AS CHAR),' ',P.Nombre) as NombreBusqueda, P.IVA, P.CantidadxBulto, P.Existencia, IFNULL(P.Existencia02,0) as Existencia02, IFNULL(P.Existencia03,0) as Existencia03, (IFNULL(P.Existencia02,0) + IFNULL(P.Existencia03,0)) as ExistenciaVenta , (case when P.PedidoVenta is null then 0 else P.PedidoVenta end) as PedidoVenta, (case when PP.PrecioMoneda is null then 0 else PP.PrecioMoneda end) as PrecioMoneda from Productos P left join ProductosPrecios PP on P.CodigoProducto=PP.CodigoProducto where Visible=1 and FechaSync >= ? Order by P.CodigoGrupo, P.Marca, P.Nombre`;
+  
+  try {
+    const [rows] = await pool.query(query, [fechaSync]);
+    res.json(rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error en la consulta' });
+  }
 })
 
 // Obtener todos los clientes
