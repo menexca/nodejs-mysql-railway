@@ -8,7 +8,7 @@ app.use(express.json());
 
 
 app.get('/Productos', async (req, res) => {
-  const [rows] = await pool.query(`Select P.CodigoProducto, P.Nombre, CONCAT(CAST((P.CodigoProducto) AS CHAR),' ',P.Nombre) as NombreBusqueda, P.IVA, P.CantidadxBulto, P.Existencia, IFNULL(P.Existencia02,0) as Existencia02, IFNULL(P.Existencia03,0) as Existencia03, (IFNULL(P.Existencia02,0) + IFNULL(P.Existencia03,0)) as ExistenciaVenta , (case when P.PedidoVenta is null then 0 else P.PedidoVenta end) as PedidoVenta, (case when PP.PrecioMoneda is null then 0 else PP.PrecioMoneda end) as PrecioMoneda from Productos P left join ProductosPrecios PP on P.CodigoProducto=PP.CodigoProducto where Visible=1 Order by P.CodigoGrupo, P.Marca, P.Nombre`)
+  const [rows] = await pool.query(`Select P.CodigoProducto, P.Nombre, CONCAT(CAST((P.CodigoProducto) AS CHAR),' ',P.Nombre) as NombreBusqueda, P.IVA, P.CantidadxBulto, P.Existencia, IFNULL(P.Existencia02,0) as Existencia02, IFNULL(P.Existencia03,0) as Existencia03, (IFNULL(P.Existencia02,0) + IFNULL(P.Existencia03,0)) as ExistenciaVenta , (case when P.PedidoVenta is null then 0 else P.PedidoVenta end) as PedidoVenta, (case when PP.PrecioMoneda is null then 0 else PP.PrecioMoneda end) as PrecioMoneda, P.CodigoGrupo, P.Marca from Productos P left join ProductosPrecios PP on P.CodigoProducto=PP.CodigoProducto where Visible=1 Order by P.CodigoGrupo, P.Marca, P.Nombre`)
   res.json(rows)
 })
 
