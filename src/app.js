@@ -158,6 +158,17 @@ app.get('/TasaCambio', async (req, res) => {
   }
 })
 
+app.get('/Online', async (req, res) => {
+  try {
+    const [rows] = await pool.query(`SELECT cambio FROM MonedasCambio WHERE idmoneda=2 ORDER BY fecha desc LIMIT 1`)
+
+    res.status(200).json({ error: 'Servidor en linea' });
+  } catch (error) {
+    // Si ocurre un error durante el proceso de creación del pedido, envía una respuesta de error
+    res.status(500).json({ error: 'Servidor fuera de linea' });
+  }
+})
+
 app.get('/Vendedores', async (req, res) => {
   const [rows] = await pool.query(`SELECT codigo, nombre, Zona, Almacen, RTRIM(rif) as rif, RTRIM(nit) as nit FROM Vendedores WHERE nit<>'' ORDER BY nombre`)
   res.json(rows)
