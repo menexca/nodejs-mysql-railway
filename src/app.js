@@ -147,8 +147,17 @@ app.get('/ContadorPedidoVer', async (req, res) => {
 })
 
 app.get('/TasaCambio', async (req, res) => {
-  const [rows] = await pool.query(`SELECT cambio FROM MonedasCambio WHERE idmoneda=2 ORDER BY fecha desc LIMIT 1`)
-  res.json(rows)
+  try {
+    const [rows] = await pool.query(`SELECT cambio FROM MonedasCambio WHERE idmoneda=2 ORDER BY fecha desc LIMIT 1`)
+    res.json(rows)
+
+    // Envía una respuesta indicando que el pedido se ha creado correctamente
+    res.status(200).json({ message: 'Tasa de Cambio capturada exitosamente' });
+  } catch (error) {
+    // Si ocurre un error durante el proceso de creación del pedido, envía una respuesta de error
+    console.error('Error al capturar la Tasa de Cambio', error);
+    res.status(500).json({ error: 'Error al capturar la Tasa de Cambio' });
+  }
 })
 
 app.get('/Vendedores', async (req, res) => {
