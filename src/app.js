@@ -174,6 +174,11 @@ app.get('/Vendedores', async (req, res) => {
   res.json(rows)
 })
 
+app.get('/Usuarios', async (req, res) => {
+  const [rows] = await pool.query(`SELECT Usuario, Contraseña as Contrasena, NombreCompleto, CorreoElectronico, FechaRegistro, UltimoInicioSesion, Rol, Estatus, CodigoVendedor, FechaNacimiento, Direccion, NumeroTelefono, Cedula FROM Usuarios`)
+  res.json(rows)
+})
+
 app.get('/ping', async (req, res) => {
   const [result] = await pool.query(`SELECT "hello world" as RESULT`);
   res.json(result[0])
