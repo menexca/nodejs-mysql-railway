@@ -175,7 +175,7 @@ app.get('/Vendedores', async (req, res) => {
 })
 
 app.get('/Usuarios', async (req, res) => {
-  const [rows] = await pool.query(`SELECT Usuario, Contrasena, NombreCompleto, CorreoElectronico, FechaRegistro, IFNULL(UltimoInicioSesion,'2000-01-01 00:00:00') as UltimoInicioSesion, Rol, Estatus, CodigoVendedor, FechaNacimiento, Direccion, NumeroTelefono, Cedula FROM Usuarios`)
+  const [rows] = await pool.query(`SELECT Usuario, Contrasena, NombreCompleto, CorreoElectronico, FechaRegistro, IFNULL(UltimoInicioSesion,'2000-01-01 00:00:00') as UltimoInicioSesion, Rol, Estatus, CodigoVendedor, IFNULL(FechaNacimiento,'2000-01-01 00:00:00') as FechaNacimiento, Direccion, NumeroTelefono, Cedula FROM Usuarios`)
   res.json(rows)
 })
 
