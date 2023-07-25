@@ -61,6 +61,20 @@ app.get('/Clientes/:Vendedor/:FechaSync', async (req, res) => {
   }
 })
 
+// Filtrar clientes por FechaSync
+app.get('/Clientes/:FechaSync', async (req, res) => {
+  const fechaSync = req.params.FechaSync;
+  const query = `SELECT CodigoCliente, Nombre, CONCAT(CAST((CodigoCliente) AS CHAR),' ',Nombre) as NombreBusqueda, (case when RazonSocial is null or RazonSocial='null' then '' else RazonSocial end) as RazonSocial, Direccion, (case when DiasVisita not in (1,2,3,4,5,6,7) then 8 else DiasVisita end) as DiasVisita, (case when Telefonos='null' then '' else Telefonos end) as Telefonos, IFNULL(LimiteCredito,0) as LimiteCredito, SaldoMonedaTotal, (case when SaldoMonedaVencido>SaldoMonedaTotal then SaldoMonedaTotal else SaldoMonedaVencido end) as SaldoMonedaVencido, date(ultimopago) as ultimopago, ProximoVencer FROM Clientes WHERE Estatus<>'S' and FechaSync >= ? Order by SaldoMonedaTotal desc`;
+  
+  try {
+    const [rows] = await pool.query(query, [vendedor, fechaSync]);
+    res.json(rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error en la consulta' });
+  }
+})
+
 app.get('/Facturas', async (req, res) => {
   const [rows] = await pool.query('SELECT CodigoCliente, Numero, date(FechaEmision) as FechaEmision, TotalFactura2, Vendedor FROM Facturas WHERE TotalFactura>0 ORDER BY FechaEmision DESC')
   res.json(rows)
