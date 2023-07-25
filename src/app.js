@@ -175,9 +175,17 @@ app.get('/Vendedores', async (req, res) => {
 })
 
 app.get('/Usuarios', async (req, res) => {
-  const [rows] = await pool.query(`SELECT Usuario, Contrasena, NombreCompleto, CorreoElectronico, FechaRegistro, IFNULL(UltimoInicioSesion,'2000-01-01 00:00:00') as UltimoInicioSesion, Rol, Estatus, CodigoVendedor, IFNULL(FechaNacimiento,'2000-01-01 00:00:00') as FechaNacimiento, Direccion, NumeroTelefono, Cedula FROM Usuarios`)
-  res.json(rows)
-})
+  try {
+    const [rows] = await pool.query(`SELECT Usuario, Contrasena, NombreCompleto, CorreoElectronico, FechaRegistro, IFNULL(UltimoInicioSesion,'2000-01-01 00:00:00') as UltimoInicioSesion, Rol, Estatus, CodigoVendedor, IFNULL(FechaNacimiento,'2000-01-01 00:00:00') as FechaNacimiento, Direccion, NumeroTelefono, Cedula FROM Usuarios`);
+
+    // Envía una respuesta indicando que la consulta se ha realizado correctamente
+    res.status(200).json(rows);
+  } catch (error) {
+    // Si ocurre un error durante la consulta, envía una respuesta de error
+    console.error('Error al obtener los usuarios', error);
+    res.status(500).json({ error: 'Error al obtener los usuarios' });
+  }
+});
 
 app.get('/ping', async (req, res) => {
   const [result] = await pool.query(`SELECT "hello world" as RESULT`);
