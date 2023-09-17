@@ -17,6 +17,7 @@ app.get('/Productos/:FechaSync', async (req, res) => {
   const fechaSync = req.params.FechaSync;
   const query = `Select P.CodigoProducto, P.Nombre, CONCAT(CAST((P.CodigoProducto) AS CHAR),' ',P.Nombre) as NombreBusqueda, P.IVA, P.CantidadxBulto, P.Existencia, IFNULL(P.Existencia02,0) as Existencia02, IFNULL(P.Existencia03,0) as Existencia03, (IFNULL(P.Existencia02,0) + IFNULL(P.Existencia03,0)) as ExistenciaVenta , (case when P.PedidoVenta is null then 0 else P.PedidoVenta end) as PedidoVenta, IFNULL((SELECT PP.PrecioMoneda FROM ProductosPrecios PP WHERE PP.CodigoProducto=P.CodigoProducto AND PP.Tarifa='A'),0) as PrecioMoneda, IFNULL((SELECT PP.PrecioMoneda FROM ProductosPrecios PP WHERE PP.CodigoProducto=P.CodigoProducto AND PP.Tarifa='B'),0) as PrecioMonedaB, P.CodigoGrupo, P.Marca from Productos P where Visible=1 and FechaSync >= ? Order by P.CodigoGrupo, P.Marca, P.Nombre`;
   
+  
   try {
     const [rows] = await pool.query(query, [fechaSync]);
     res.json(rows);
@@ -184,7 +185,7 @@ app.get('/Online', async (req, res) => {
 })
 
 app.get('/Vendedores', async (req, res) => {
-  const [rows] = await pool.query(`SELECT codigo, nombre, Zona, Almacen, RTRIM(rif) as rif, RTRIM(nit) as nit FROM Vendedores WHERE nit<>'' ORDER BY nombre`)
+  const [rows] = await pool.query(`SELECT codigo, nombre, Zona, Almacen, RTRIM(rif) as rif, RTRIM(nit) as nit, (select count(*) from Clientes c where c.Vendedor=v.codigo) as n_ctes, (select count(*) from Clientes c where c.Vendedor=v.codigo and c.DiasVisita like '%1%') as n_ctes_01, (select count(*) from Clientes c where c.Vendedor=v.codigo and c.DiasVisita like '%2%') as n_ctes_02, (select count(*) from Clientes c where c.Vendedor=v.codigo and c.DiasVisita like '%3%') as n_ctes_03, (select count(*) from Clientes c where c.Vendedor=v.codigo and c.DiasVisita like '%4%') as n_ctes_04, (select count(*) from Clientes c where c.Vendedor=v.codigo and c.DiasVisita like '%5%') as n_ctes_05, (select count(*) from Clientes c where c.Vendedor=v.codigo and c.DiasVisita like '%6%') as n_ctes_06, (select count(*) from Clientes c where c.Vendedor=v.codigo and c.DiasVisita like '%7%') as n_ctes_07, (select count(*) from Clientes c where c.Vendedor=v.codigo and (c.DiasVisita is null or c.DiasVisita='')) as n_ctes_sin_dia, (select count(*) from Pedidos p where p.Vendedor=v.codigo AND DATE(p.FechaEmision) = CURDATE()) as nro_pedidos_hoy, (select count(*) from Pedidos p where p.Vendedor=v.codigo AND YEAR(p.FechaEmision) = YEAR(CURDATE()) AND WEEK(p.FechaEmision, 1) = WEEK(CURDATE(), 1)) as nro_pedidos_semana, (select COUNT(DISTINCT CodigoCliente) from Pedidos p where p.Vendedor=v.codigo AND DATE(p.FechaEmision) = CURDATE()) as n_ctes_atendidos_hoy, IFNULL((select sum(SaldoMonedaTotal) from Clientes c where c.Vendedor=v.codigo),0) as Saldo, IFNULL((select sum(SaldoMonedaVencido) from Clientes c where c.Vendedor=v.codigo),0) as Vencido FROM Vendedores WHERE nit<>'' ORDER BY nombre`)
   res.json(rows)
 })
 
@@ -210,6 +211,9 @@ app.get('/create', async (req, res) => {
   const result = await pool.query('INSERT INTO Pedidos VALUES ("PE000002", "2023-03-26 14:35:41", "2023-03-26 14:35:41", "V-26036875", 250.00, 0.00, 40.00, 0.00, 290.00, 0.00, "001", "BLA BLA BLA", "A", "01", NULL, "PE", "LUIS", 25.00, "$", 10.00, 0.00, 1.60, 0.00, 11.60, 2, NULL)')
   res.json(result)
 })
+
+
+
 
 app.listen(PORT)
 console.log('Server on port', PORT)
