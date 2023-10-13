@@ -189,6 +189,23 @@ app.get('/Vendedores', async (req, res) => {
   res.json(rows)
 })
 
+//Vendedores filtrados por FechSync
+app.get('/Vendedores/:FechaSync', async (req, res) => {
+  const fechaSync = req.params.FechaSync;
+  console.log('FechaSync:', fechaSync);  // Agrega esta línea para depuración
+  const query = `SELECT codigo, nombre, Zona, Almacen, RTRIM(rif) as rif, RTRIM(nit) as nit, CAST(CantidadClientes AS SIGNED) AS CantidadClientes, CAST(CantidadClientesNuevosMes AS SIGNED) AS CantidadClientesNuevosMes, CAST(CantidadPedidosHoy AS SIGNED) AS CantidadPedidosHoy, CAST(CantidadPedidosMes AS SIGNED) AS CantidadPedidosMes, CAST(CantidadClientesAtendidosHoy AS SIGNED) AS CantidadClientesAtendidosHoy, CAST(CantidadClientesAtendidosMes AS SIGNED) AS CantidadClientesAtendidosMes, meta, PorcentajeEfectividad, TotalVentaBruta2, TotalDevolucionBruta2, TotalFacturacionBruta2, PorcentajeAlcanzadoMeta, DiasHabilesMes, DiasHabilesTranscurridos, DiasHabilesRestantes, PromedioVentaDiaria, DiferenciaMeta, ObjetivoDiario, Saldo, Vencido, PorcentajeSaldoVencido, PorcentajeVentaVencido FROM ViewVendedoresIndicadores v WHERE meta>0 and FechaSync >= ? ORDER BY nombre`;
+  
+  try {
+    console.log('Query:', query);  // Agrega esta línea para depuración
+    const [rows] = await pool.query(query, [fechaSync]);
+    console.log('Rows:', rows);  // Agrega esta línea para depuración
+    res.json(rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error en la consulta' });
+  }
+})
+
 app.get('/VendedoresDisponibles', async (req, res) => {
   const [rows] = await pool.query(`SELECT codigo, nombre, Zona, Almacen, RTRIM(rif) as rif, RTRIM(nit) as nit FROM Vendedores V WHERE NOT EXISTS (SELECT * FROM Usuarios U WHERE U.CodigoVendedor=V.codigo) ORDER BY nombre`)
   res.status(200).json(rows)
