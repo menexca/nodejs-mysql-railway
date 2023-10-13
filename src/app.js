@@ -207,6 +207,66 @@ app.get('/Usuarios', async (req, res) => {
   }
 });
 
+//agregar usuario nuevo
+app.post('/Usuarios', async (req, res) => {
+  const newUserData = req.body; // Datos del nuevo usuario en el cuerpo de la solicitud
+
+  const insertQuery = `
+    INSERT INTO Usuarios (Usuario, Contrasena, NombreCompleto, CorreoElectronico, FechaRegistro, Rol, Estatus, CodigoVendedor, Direccion, NumeroTelefono, Cedula) VALUES (?, ?, ?, ?, DATE_SUB(NOW(), INTERVAL 4 HOUR), ?, 1, ?, ?, ?, ?)`;
+
+  const insertValues = [
+    newUserData.usuario, newUserData.contrasena, newUserData.nombreCompleto, newUserData.correoElectronico, newUserData.rol, newUserData.codigoVendedor, newUserData.direccion, newUserData.numeroTelefono, newUserData.cedula
+  ];
+
+  try {
+    await pool.query(insertQuery, insertValues);
+    res.status(200).json({ message: 'Usuario agregado correctamente' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al agregar el usuario' });
+  }
+});
+
+
+// Filtrar usuarios por usuario
+app.get('/Usuarios/:Usuario', async (req, res) => {
+  try {
+    const usuario = req.params.Usuario;
+    const query = `SELECT Usuario, Contrasena, NombreCompleto, CorreoElectronico, FechaRegistro, IFNULL(UltimoInicioSesion,'2000-01-01 00:00:00') as UltimoInicioSesion, Rol, Estatus, CodigoVendedor, IFNULL(FechaNacimiento,'2000-01-01 00:00:00') as FechaNacimiento, Direccion, NumeroTelefono, Cedula FROM Usuarios where Usuario = ?`;
+  
+    const [rows] = await pool.query(query, [usuario]);
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error en la consulta' });
+  }
+})
+
+// Actualizar usuario por usuario OOO
+app.put('/Usuarios/:Usuario', async (req, res) => {
+  const usuario = req.params.Usuario;
+  const updatedUserData = req.body; // Datos actualizados del usuario en el cuerpo de la solicitud
+
+  const updateQuery = `
+    UPDATE Usuarios SET Contrasena = ?, NombreCompleto = ?, CorreoElectronico = ?, Rol = ?, Estatus = ?, CodigoVendedor = ?, FechaNacimiento = ?, Direccion = ?, NumeroTelefono = ?, Cedula = ? WHERE Usuario = ?`;
+  
+  const updateValues = [
+    updatedUserData.contrasena, updatedUserData.nombreCompleto, updatedUserData.correoElectronico, updatedUserData.rol, updatedUserData.estatus, updatedUserData.codigoVendedor, updatedUserData.fechaNacimiento, updatedUserData.direccion, updatedUserData.numeroTelefono, updatedUserData.cedula, usuario
+  ];
+ 
+  try {
+    const [result] = await pool.query(updateQuery, updateValues);
+    if (result.affectedRows > 0) {
+      res.status(200).json({ message: 'Registro actualizado correctamente' });
+    } else {
+      res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error en la actualización' });
+  }
+});
+
 app.get('/ping', async (req, res) => {
   const [result] = await pool.query(`SELECT "hello world" as RESULT`);
   res.json(result[0])
