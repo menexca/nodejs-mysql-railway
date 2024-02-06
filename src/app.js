@@ -82,7 +82,7 @@ app.get('/Facturas', async (req, res) => {
 })
 
 app.get('/Pedidos', async (req, res) => {
-  const [rows] = await pool.query(`SELECT P.Numero, P.FechaEmision, C.Nombre, CONCAT(CAST((P.Numero) AS CHAR),' ',C.Nombre) as NombreBusqueda, P.Vendedor, V.nombre as NombreVendedor, P.TotalBruto2, P.Impuesto2, P.TotalPedido2, P.Estatus, (SELECT count(CodigoProducto) FROM PedidosRenglones PR WHERE PR.Numero=P.Numero) AS Items, (SELECT SUM(ROUND(PR.Cantidad/P.CantidadxBulto,2)) FROM PedidosRenglones PR LEFT JOIN Productos P ON P.CodigoProducto=PR.CodigoProducto WHERE PR.Numero=P.Numero) as Bultos FROM Pedidos P LEFT JOIN Clientes C ON P.CodigoCliente=C.CodigoCliente LEFT JOIN Vendedores V ON P.Vendedor=V.codigo WHERE TotalPedido>0 ORDER BY FechaEmision DESC limit 300`)
+  const [rows] = await pool.query(`SELECT P.Numero, P.FechaEmision, C.Nombre, CONCAT(CAST((P.Numero) AS CHAR),' ',C.Nombre) as NombreBusqueda, P.Vendedor, V.nombre as NombreVendedor, P.TotalBruto2, P.Impuesto2, P.TotalPedido2, P.Estatus, 0 AS Items, 0 as Bultos FROM Pedidos P LEFT JOIN Clientes C ON P.CodigoCliente=C.CodigoCliente LEFT JOIN Vendedores V ON P.Vendedor=V.codigo WHERE TotalPedido>0 ORDER BY FechaEmision DESC limit 300`)
   res.json(rows)
 })
 
