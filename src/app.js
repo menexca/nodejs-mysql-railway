@@ -292,7 +292,7 @@ app.post('/Usuarios', async (req, res) => {
 app.get('/Usuarios/:Usuario', async (req, res) => {
   try {
     const usuario = req.params.Usuario;
-    const query = `SELECT Usuario, Contrasena, NombreCompleto, CorreoElectronico, FechaRegistro, IFNULL(UltimoInicioSesion,'2000-01-01 00:00:00') as UltimoInicioSesion, Rol, Estatus, CodigoVendedor, IFNULL(FechaNacimiento,'2000-01-01 00:00:00') as FechaNacimiento, Direccion, NumeroTelefono, Cedula FROM Usuarios where Usuario = ?`;
+    const query = `SELECT Usuario, Contrasena, NombreCompleto, CorreoElectronico, FechaRegistro, IFNULL(UltimoInicioSesion,'2000-01-01 00:00:00') as UltimoInicioSesion, Rol, Estatus, CodigoVendedor, IFNULL(FechaNacimiento,'2000-01-01 00:00:00') as FechaNacimiento, Direccion, NumeroTelefono, Cedula, Almacen FROM Usuarios where Usuario = ?`;
   
     const [rows] = await pool.query(query, [usuario]);
     res.status(200).json(rows);
