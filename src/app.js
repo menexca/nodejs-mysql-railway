@@ -308,10 +308,10 @@ app.put('/Usuarios/:Usuario', async (req, res) => {
   const updatedUserData = req.body; // Datos actualizados del usuario en el cuerpo de la solicitud
 
   const updateQuery = `
-    UPDATE Usuarios SET Contrasena = ?, NombreCompleto = ?, CorreoElectronico = ?, Rol = ?, Estatus = ?, CodigoVendedor = ?, FechaNacimiento = ?, Direccion = ?, NumeroTelefono = ?, Cedula = ? WHERE Usuario = ?`;
+    UPDATE Usuarios SET Contrasena = ?, NombreCompleto = ?, CorreoElectronico = ?, Rol = ?, Estatus = ?, CodigoVendedor = ?, FechaNacimiento = ?, Direccion = ?, NumeroTelefono = ?, Cedula = ?, Almacen = ? WHERE Usuario = ?`;
   
   const updateValues = [
-    updatedUserData.contrasena, updatedUserData.nombreCompleto, updatedUserData.correoElectronico, updatedUserData.rol, updatedUserData.estatus, updatedUserData.codigoVendedor, updatedUserData.fechaNacimiento, updatedUserData.direccion, updatedUserData.numeroTelefono, updatedUserData.cedula, usuario
+    updatedUserData.contrasena, updatedUserData.nombreCompleto, updatedUserData.correoElectronico, updatedUserData.rol, updatedUserData.estatus, updatedUserData.codigoVendedor, updatedUserData.fechaNacimiento, updatedUserData.direccion, updatedUserData.numeroTelefono, updatedUserData.cedula, updatedUserData.almacen, usuario
   ];
  
   try {
