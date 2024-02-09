@@ -156,6 +156,44 @@ app.get('/PedidosRenglones/:Numero', async (req, res) => {
   }
 })
 
+app.post('/CrearPedido', async (req, res) => {
+  try {
+    const pedidoCompleto = req.body; // Obtén los datos completos del pedido enviados en la solicitud POST
+
+    const selectContadorQuery = `
+      SELECT CONCAT('AS-2', LPAD(RIGHT(LEFT(Numero,8),4)+1, 4, '0')) as Contador
+      FROM Pedidos
+      ORDER BY Numero DESC
+      LIMIT 1
+    `;
+    const [contadorResult] = await pool.query(selectContadorQuery);
+    const nuevoContador = contadorResult[0].Contador;
+
+
+    // Lógica para insertar el pedido en Pedidos
+    const insertQueryPedido = `INSERT INTO Pedidos (Numero, FechaEmision, FechaEntrega, CodigoCliente, TotalBruto, Descuento, Impuesto, Cargo, TotalPedido, PorcentajeDescuento, Vendedor, Comentarios, Tarifa, Almacen, Peso, Estatus, Usuario, Cambio, Moneda, TotalBruto2, Descuento2, Impuesto2, Cargo2, TotalPedido2, Idmoneda) VALUES (?, DATE_SUB(NOW(), INTERVAL 4 HOUR), DATE_SUB(NOW(), INTERVAL 4 HOUR), ?, round(?*(select cambio from MonedasCambio where idmoneda=2 order by fecha desc LIMIT 1),2), 0, round(?*(select cambio from MonedasCambio where idmoneda=2 order by fecha desc LIMIT 1),2), 0, round(?*(select cambio from MonedasCambio where idmoneda=2 order by fecha desc LIMIT 1),2)+round(?*(select cambio from MonedasCambio where idmoneda=2 order by fecha desc LIMIT 1),2), 0, ?, CONCAT('Enviado desde la APP: ', ?), 'A', '02', 0, 'PE', 'APP', (select cambio from MonedasCambio where idmoneda=2 order by fecha desc LIMIT 1), 'BsS', ?, 0, ?, 0, ?, 2)`;
+    const valuesPedido = [nuevoContador, pedidoCompleto.codigoCliente, pedidoCompleto.totalNeto, pedidoCompleto.totalImpuesto, pedidoCompleto.totalNeto, pedidoCompleto.totalImpuesto, pedidoCompleto.vendedor, pedidoCompleto.comentario, pedidoCompleto.totalNeto, pedidoCompleto.totalImpuesto, pedidoCompleto.totalPedido];
+    const [pedidoResult] = await pool.query(insertQueryPedido, valuesPedido);
+
+    // const pedidoId = pedidoResult.insertId; // Obtén el ID del pedido recién insertado
+
+    // Lógica para insertar los renglones del pedido en PedidosRenglones
+    const renglones = pedidoCompleto.renglones;
+    const insertQueryRenglones = `INSERT INTO PedidosRenglones (Numero, Almacen, CodigoProducto, Descripcion, UnidadMedida, iva, PorcentajeIva, Bultos, Cantidad, Despacho, Precio, Descuento, TotalRenglon, Estatus, ItemPedido, EstatusDol, DespachoDol, Cambio, Moneda, CantidadxBulto, Tarifa, Precio2, TotalRenglon2) SELECT ?, LEFT(?,2), CodigoProducto, Nombre, UnidadMedida, IVA, case when IVA='A' then 16 else 0 end, 1, ?, 0, round(?*(select cambio from MonedasCambio where idmoneda=2 order by fecha desc LIMIT 1),2), ?, round(?*(select cambio from MonedasCambio where idmoneda=2 order by fecha desc LIMIT 1),2), 'PE', ?, 'PE', 0, (select cambio from MonedasCambio where idmoneda=2 order by fecha desc LIMIT 1), 'BsS', 1, LEFT(?,1), ?, ? FROM Productos WHERE CodigoProducto=?`;
+    
+    for (const renglon of renglones) {
+      const valuesRenglones = [nuevoContador, renglon.almacen, renglon.cantidad, renglon.precioMoneda, renglon.descuento, renglon.totalRenglon, renglon.indice, renglon.tarifa, renglon.precioMoneda, renglon.totalRenglon, renglon.codigoProducto];
+      await pool.query(insertQueryRenglones, valuesRenglones);
+    }
+
+    // Envía una respuesta indicando que el pedido y los renglones se han creado correctamente
+    res.status(200).json({ message: 'Pedido Completo creado exitosamente', nuevoContador: nuevoContador });
+  } catch (error) {
+    // Si ocurre un error durante el proceso de creación, envía una respuesta de error
+    console.error('Error al crear el pedido y los renglones:', error);
+    res.status(500).json({ error: 'Error al crear el pedido Completo' });
+  }
+});
 
 app.post('/PedidosRenglones', async (req, res) => {
   try {
