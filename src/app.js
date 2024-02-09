@@ -250,7 +250,7 @@ app.get('/Vendedores/:FechaSync', async (req, res) => {
 })
 
 app.get('/VendedoresDisponibles', async (req, res) => {
-  const [rows] = await pool.query(`SELECT codigo, nombre, Zona, Almacen, RTRIM(rif) as rif, RTRIM(nit) as nit FROM Vendedores V WHERE NOT EXISTS (SELECT * FROM Usuarios U WHERE U.CodigoVendedor=V.codigo) ORDER BY nombre`)
+  const [rows] = await pool.query(`SELECT codigo, nombre, Zona, IFNULL(Almacen,'') AS Almacen, RTRIM(rif) as rif, RTRIM(nit) as nit FROM Vendedores V WHERE NOT EXISTS (SELECT * FROM Usuarios U WHERE U.CodigoVendedor=V.codigo) ORDER BY nombre`)
   res.status(200).json(rows)
 })
 
