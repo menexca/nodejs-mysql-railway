@@ -161,7 +161,7 @@ app.post('/CrearPedido', async (req, res) => {
     const pedidoCompleto = req.body; // Obtén los datos completos del pedido enviados en la solicitud POST
 
     const selectContadorQuery = `
-      SELECT CONCAT('AS-2', LPAD(RIGHT(LEFT(Numero,8),4)+1, 4, '0')) as Contador
+      SELECT CONCAT('AS-', LPAD(RIGHT(LEFT(Numero,8),5)+1, 5, '0')) as Contador
       FROM Pedidos
       ORDER BY Numero DESC
       LIMIT 1
