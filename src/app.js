@@ -195,6 +195,7 @@ app.post('/CrearPedido', async (req, res) => {
   }
 });
 
+/*
 app.post('/PedidosRenglones', async (req, res) => {
   try {
     const pedidoRenglon = req.body; // Obtén los datos del pedido enviados en la solicitud POST
@@ -230,7 +231,7 @@ app.post('/Pedidos', async (req, res) => {
     res.status(500).json({ error: 'Error al crear el pedido' });
   }
 });
-
+*/
 app.get('/ContadorPedido', async (req, res) => {
   const [rows] = await pool.query(`UPDATE Contadores SET Numero=LPAD(Numero + 1, 5, '0') WHERE Documento = 'Pedido'`)
   res.json(rows)
