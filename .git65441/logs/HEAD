@@ -1,0 +1,99 @@
+0000000000000000000000000000000000000000 2e8c1501eb358e01c8281ef85de117b50f6485ba menexca <luisdaniel_ca@hotmail.com> 1679858441 -0400	commit (initial): primera subida
+2e8c1501eb358e01c8281ef85de117b50f6485ba aaf48f9de8e5f785bb507d912e43f613e329d12b menexca <luisdaniel_ca@hotmail.com> 1679859744 -0400	commit: corregido nombre tabla Pedidos
+aaf48f9de8e5f785bb507d912e43f613e329d12b 1c25ac5f7a82c291df40aeb73659c5cc39927481 menexca <luisdaniel_ca@hotmail.com> 1679859999 -0400	commit: corregido insert
+1c25ac5f7a82c291df40aeb73659c5cc39927481 2b070880ad9469f43ec97424694dc5879480290b menexca <luisdaniel_ca@hotmail.com> 1682310447 -0400	commit: Colocada EndPoint Productos
+2b070880ad9469f43ec97424694dc5879480290b 71d0529a19d49baf728556865624e8c544963f7d menexca <luisdaniel_ca@hotmail.com> 1682311606 -0400	commit: Colocada EndPoint Productos 2
+71d0529a19d49baf728556865624e8c544963f7d af7c1faac573e0737120c5de7a4699291fa2c0dd menexca <luisdaniel_ca@hotmail.com> 1682381328 -0400	commit: Colocada EndPoint Clientes
+af7c1faac573e0737120c5de7a4699291fa2c0dd 23115c2025edd9b948341a4dedfd3d1f0bb9e971 menexca <luisdaniel_ca@hotmail.com> 1682782143 -0400	commit: ajuste EndPoint Clientes
+23115c2025edd9b948341a4dedfd3d1f0bb9e971 6f343821d8fb87cea732324ce6592825f15c0443 menexca <luisdaniel_ca@hotmail.com> 1682782402 -0400	commit: ajuste2 EndPoint Clientes
+6f343821d8fb87cea732324ce6592825f15c0443 e411854b6531780dac0ce3f114861ea6b242a5cc menexca <luisdaniel_ca@hotmail.com> 1685625714 -0400	commit: ajuste EndPoint Productos - precio con iva
+e411854b6531780dac0ce3f114861ea6b242a5cc 569b9c9d4f62b5fe037cbbca348091bd1ee2190d menexca <luisdaniel_ca@hotmail.com> 1686029094 -0400	commit: agregados endpoints - Facturas y Pedidos
+569b9c9d4f62b5fe037cbbca348091bd1ee2190d bd34eb2aa2c6c233b0d6de662e7868df178e0dad menexca <luisdaniel_ca@hotmail.com> 1686029517 -0400	commit: agregados endpoints - Facturas y Pedidos 2
+bd34eb2aa2c6c233b0d6de662e7868df178e0dad d0f34801fbed6fb2e411e30cf3a9e607acd0431d menexca <luisdaniel_ca@hotmail.com> 1686029925 -0400	commit: agregados endpoints - Facturas y Pedidos 3
+d0f34801fbed6fb2e411e30cf3a9e607acd0431d a7476d1537ac540bcc51ff96f8899b50e08dbdad menexca <luisdaniel_ca@hotmail.com> 1686449545 -0400	commit: agregados solicitud post pedidos
+a7476d1537ac540bcc51ff96f8899b50e08dbdad deca185e080be56ff8cd87a8f3550bc6e7735ea0 menexca <luisdaniel_ca@hotmail.com> 1686460939 -0400	commit: agregados solicitud post pedidos2
+deca185e080be56ff8cd87a8f3550bc6e7735ea0 7270342400f6ba5489a41a438f457833e7db2865 menexca <luisdaniel_ca@hotmail.com> 1686560602 -0400	commit: agregados solicitud post pedidos22
+7270342400f6ba5489a41a438f457833e7db2865 5e038f9fba05e9f66bdc5cf9fa4b4ce1b4e85b1f menexca <luisdaniel_ca@hotmail.com> 1686567223 -0400	commit: agregados solicitud post pedidos222
+5e038f9fba05e9f66bdc5cf9fa4b4ce1b4e85b1f 55f3ed63124a56d7b3e8c04094746f7ac8ad8b15 menexca <luisdaniel_ca@hotmail.com> 1686567510 -0400	commit: agregados solicitud post pedidos2222
+55f3ed63124a56d7b3e8c04094746f7ac8ad8b15 6d3de953ad724e77ea0fbd4197927ba1d391b444 menexca <luisdaniel_ca@hotmail.com> 1686568437 -0400	commit: agregados solicitud post pedidos22222
+6d3de953ad724e77ea0fbd4197927ba1d391b444 f89e5108992d1048c1e9f71cc4096017113adad1 menexca <luisdaniel_ca@hotmail.com> 1686568805 -0400	commit: agregados solicitud post pedidos222222
+f89e5108992d1048c1e9f71cc4096017113adad1 e158c02d753904c6af0f13a789d7060dbe600f01 menexca <luisdaniel_ca@hotmail.com> 1686568953 -0400	commit: agregados solicitud post pedidos2222222
+e158c02d753904c6af0f13a789d7060dbe600f01 c544cfd5a0f890865d8c4b7d562c073a5c04ec97 menexca <luisdaniel_ca@hotmail.com> 1687011805 -0400	commit: Modificado endpoint productos
+c544cfd5a0f890865d8c4b7d562c073a5c04ec97 0c7d6394f9c960b12860c821320932ed08eb5c58 menexca <luisdaniel_ca@hotmail.com> 1687124570 -0400	commit: Modificado endpoint pedidos
+0c7d6394f9c960b12860c821320932ed08eb5c58 cc850eadf4d5970843568214aa98b1d85df1d0d4 menexca <luisdaniel_ca@hotmail.com> 1687126350 -0400	commit: Modificado endpoint pedidos
+cc850eadf4d5970843568214aa98b1d85df1d0d4 445d697da4a225b6b36da9947e9dce8d1df6602b menexca <luisdaniel_ca@hotmail.com> 1687126659 -0400	commit: Modificado endpoint pedidosx
+445d697da4a225b6b36da9947e9dce8d1df6602b dd2d4abc1bef273ce83ef3a754d85fba87d5baa0 menexca <luisdaniel_ca@hotmail.com> 1687133769 -0400	commit: Modificado endpoint pedidosrenglones
+dd2d4abc1bef273ce83ef3a754d85fba87d5baa0 67ea0fbe036c849a827b6d83f00ad285d7d4d33a menexca <luisdaniel_ca@hotmail.com> 1687134081 -0400	commit: Modificado endpoint contadores
+67ea0fbe036c849a827b6d83f00ad285d7d4d33a 773bf7f383975034ff3d509c99539932342a39c8 menexca <luisdaniel_ca@hotmail.com> 1687135474 -0400	commit: Modificado endpoint pedidos totalpedido
+773bf7f383975034ff3d509c99539932342a39c8 9fac8f65182e6b5b3c70b0f6c059b0da94d5d9f3 menexca <luisdaniel_ca@hotmail.com> 1687137789 -0400	commit: Modificado endpoint pedidos totalpedidoSS
+9fac8f65182e6b5b3c70b0f6c059b0da94d5d9f3 19a119f4d34cd463d09615db6ccd9a30f07f63a9 menexca <luisdaniel_ca@hotmail.com> 1687138201 -0400	commit: Modificado endpoint pedidos totalpedidoSSDSS
+19a119f4d34cd463d09615db6ccd9a30f07f63a9 39c0a2387972759677ee63198c7ed19d6ed9e572 menexca <luisdaniel_ca@hotmail.com> 1687226521 -0400	commit: Modificado endpoint contador ver
+39c0a2387972759677ee63198c7ed19d6ed9e572 4bec1ec9f2c9dcef4587e66910a44c434d6e2f70 menexca <luisdaniel_ca@hotmail.com> 1687226905 -0400	commit: Modificado endpoint contador verr
+4bec1ec9f2c9dcef4587e66910a44c434d6e2f70 553e0d3a6dc404e022297e8c6e24942ff804c256 menexca <luisdaniel_ca@hotmail.com> 1687229425 -0400	commit: Modificado endpoint contador verrs
+553e0d3a6dc404e022297e8c6e24942ff804c256 650a6a34b13b4ccf692d2f30222d9c21aaf0382f menexca <luisdaniel_ca@hotmail.com> 1687370221 -0400	commit: Agregado EndPoint TasaCambio
+650a6a34b13b4ccf692d2f30222d9c21aaf0382f 11f8572e5a9ffe3fe93be0adde7736d532c25646 menexca <luisdaniel_ca@hotmail.com> 1687371446 -0400	commit: Agregado EndPoint vendedores
+11f8572e5a9ffe3fe93be0adde7736d532c25646 c4429e36c8b9b661b646c9786a168bf20237935d menexca <luisdaniel_ca@hotmail.com> 1687391318 -0400	commit: Agregado EndPoint vendedores23
+c4429e36c8b9b661b646c9786a168bf20237935d 43bbbd21e493acb0251658fc8e1ddb2e4dee3634 menexca <luisdaniel_ca@hotmail.com> 1687409889 -0400	commit: Agregado EndPoint clientes filtrados por vendedor
+43bbbd21e493acb0251658fc8e1ddb2e4dee3634 f306aa741e17f2252384368e1b3cd9a7d9f7ee28 menexca <luisdaniel_ca@hotmail.com> 1687724132 -0400	commit: Correccion Productos - Pedido Venta
+f306aa741e17f2252384368e1b3cd9a7d9f7ee28 7b2e2d077a6585672c2e402b2f3457273fe8f7e6 menexca <luisdaniel_ca@hotmail.com> 1687747579 -0400	commit: Modificador Vendedor asc por nombre
+7b2e2d077a6585672c2e402b2f3457273fe8f7e6 391fffc7b03e6e88807ee5944aa9a5a6822deadb menexca <luisdaniel_ca@hotmail.com> 1687992154 -0400	commit: Modificado endp Productos
+391fffc7b03e6e88807ee5944aa9a5a6822deadb 57313bfd2c988f9d9fdf6f21e8992a1c70b11ea1 menexca <luisdaniel_ca@hotmail.com> 1687999178 -0400	commit: Modificado endp Clientes
+57313bfd2c988f9d9fdf6f21e8992a1c70b11ea1 9d3b2ad9c93a8b170d6c24b5e07fc969283d39de menexca <luisdaniel_ca@hotmail.com> 1688040538 -0400	commit: Modificado endp Clientess
+9d3b2ad9c93a8b170d6c24b5e07fc969283d39de 0b53232051fda7d35d9228946aecc555a3055a45 menexca <luisdaniel_ca@hotmail.com> 1688043420 -0400	commit: Modificado endp PRODUCTOS
+0b53232051fda7d35d9228946aecc555a3055a45 dbdb8e1c3b8396005616c12e5717c97b9191cdbd menexca <luisdaniel_ca@hotmail.com> 1688046609 -0400	commit: Modificado endp Clientessss
+dbdb8e1c3b8396005616c12e5717c97b9191cdbd 5f1003176e3119c946929edc6c8041ed31e0bc55 menexca <luisdaniel_ca@hotmail.com> 1688085295 -0400	commit: Modificado endp Clientessssvendedor
+5f1003176e3119c946929edc6c8041ed31e0bc55 27384903e555f4d818895512bf0f495daaf36f5e menexca <luisdaniel_ca@hotmail.com> 1688105899 -0400	commit: Agregados EndPoints de Pedidos
+27384903e555f4d818895512bf0f495daaf36f5e 67ead79734ecdba76823d2bce71219ce92b9d70d menexca <luisdaniel_ca@hotmail.com> 1688320585 -0400	commit: Agregados EndPoints de PedidosRenglones
+67ead79734ecdba76823d2bce71219ce92b9d70d e55eba24a644ca6d98536d81d6d59dd53f8001ee menexca <luisdaniel_ca@hotmail.com> 1688346636 -0400	commit: modificado EndPoints de Productos
+e55eba24a644ca6d98536d81d6d59dd53f8001ee 82b7166a5723d935f91ceba517a9a0dc0cb344b3 menexca <luisdaniel_ca@hotmail.com> 1688952544 -0400	commit: modificado EndPoints de clientes - razon social null
+82b7166a5723d935f91ceba517a9a0dc0cb344b3 ecee94268ca4906a93d8f6b8e1188df19ef3d967 menexca <luisdaniel_ca@hotmail.com> 1688952896 -0400	commit: modificado EndPoints de clientes - razon social nulllll
+ecee94268ca4906a93d8f6b8e1188df19ef3d967 21c9fa5a030e0e23bd5914a78fb5e1b2c9627e02 menexca <luisdaniel_ca@hotmail.com> 1688953095 -0400	commit: modificado EndPoints de clientes - razon social nullll2
+21c9fa5a030e0e23bd5914a78fb5e1b2c9627e02 d64714890764a6300818fbe659e24f0604874df5 menexca <luisdaniel_ca@hotmail.com> 1688953256 -0400	commit: modificado EndPoints de clientes - razon social nullll22
+d64714890764a6300818fbe659e24f0604874df5 31a9d03ba5f6c62e68937d7fcc779ccf148a6431 menexca <luisdaniel_ca@hotmail.com> 1688953652 -0400	commit: modificado EndPoints de clientes - razon social nullll22siiiu
+31a9d03ba5f6c62e68937d7fcc779ccf148a6431 9f9bfea96935d62eaebf62c5a707c9d69310a5d3 menexca <luisdaniel_ca@hotmail.com> 1689611347 -0400	commit: modificado EndPoints filtrado por fechasync
+9f9bfea96935d62eaebf62c5a707c9d69310a5d3 9bccd6482b991b1265bd008d1e86f5bb10982fa8 menexca <luisdaniel_ca@hotmail.com> 1689611811 -0400	commit: modificado EndPoints filtrado por fechasyncs
+9bccd6482b991b1265bd008d1e86f5bb10982fa8 1af5e26a0dd634ed05cd714698cb80d8c9613475 menexca <luisdaniel_ca@hotmail.com> 1689612104 -0400	commit: modificado EndPoints filtrado por fechasync en clientes
+1af5e26a0dd634ed05cd714698cb80d8c9613475 1277d188499f7424eb531891511ef9b3727b46d1 menexca <luisdaniel_ca@hotmail.com> 1689612302 -0400	commit: modificado EndPoints filtrado por fechasync en productoss
+1277d188499f7424eb531891511ef9b3727b46d1 bfe5f176245fc27a42be9354ebcf6946b31e31a1 menexca <luisdaniel_ca@hotmail.com> 1689812556 -0400	commit: modificado EndPoint clientes
+bfe5f176245fc27a42be9354ebcf6946b31e31a1 86e2c5d52b60088a7a33e0c5852e6b660e04cf3a menexca <luisdaniel_ca@hotmail.com> 1689817682 -0400	commit: modificado EndPoint producssd
+86e2c5d52b60088a7a33e0c5852e6b660e04cf3a b21e6b1a7df226f1033e40f1551dd14627336c13 menexca <luisdaniel_ca@hotmail.com> 1689938686 -0400	commit: modificado EndPoint producssddfd
+b21e6b1a7df226f1033e40f1551dd14627336c13 acd629d39c0a4e64ca7db157e5f9fcf34a562602 menexca <luisdaniel_ca@hotmail.com> 1689971009 -0400	commit: modificado EndPoint p3424324 tasa
+acd629d39c0a4e64ca7db157e5f9fcf34a562602 4eaffe224831ccc5fa227acf432b9ea61c12aa0a menexca <luisdaniel_ca@hotmail.com> 1689971396 -0400	commit: modificado EndPoint online
+4eaffe224831ccc5fa227acf432b9ea61c12aa0a 6463d9a9db4182e8f7fcd220511e2b7fddc1c96e menexca <luisdaniel_ca@hotmail.com> 1690232344 -0400	commit: add ep users
+6463d9a9db4182e8f7fcd220511e2b7fddc1c96e 0c9bfc871e8cba736c0a11b64812f214eef95f52 menexca <luisdaniel_ca@hotmail.com> 1690237492 -0400	commit: add ep users2
+0c9bfc871e8cba736c0a11b64812f214eef95f52 4ec345bf0809ebe69b1af5cfdbf9f3083ab20fd1 menexca <luisdaniel_ca@hotmail.com> 1690237572 -0400	commit: add ep users22
+4ec345bf0809ebe69b1af5cfdbf9f3083ab20fd1 fca362ce379cfb093fb882628080993bbeed0e87 menexca <luisdaniel_ca@hotmail.com> 1690237994 -0400	commit: add ep users222
+fca362ce379cfb093fb882628080993bbeed0e87 8582baaa7ff66260716db3420223403c2a7602a0 menexca <luisdaniel_ca@hotmail.com> 1690250950 -0400	commit: add ep users222dsds
+8582baaa7ff66260716db3420223403c2a7602a0 cd46263bd853ca3f2b274aa55e91cfbd8c70ad8f menexca <luisdaniel_ca@hotmail.com> 1690311511 -0400	commit: add ep users222dsdsjhjh
+cd46263bd853ca3f2b274aa55e91cfbd8c70ad8f cd5858e06f0991d9f7a5098c1745213d066cad44 menexca <luisdaniel_ca@hotmail.com> 1692128643 -0400	commit: Agregar precioB
+cd5858e06f0991d9f7a5098c1745213d066cad44 3a839cd594841f636c4d01403eba8b00e0e15637 menexca <luisdaniel_ca@hotmail.com> 1694982375 -0400	commit: Agregar CAMPOPS VENDEDDORES
+3a839cd594841f636c4d01403eba8b00e0e15637 a0ae8da75a289dbf490bdd02b6f6c2ff36672d21 menexca <luisdaniel_ca@hotmail.com> 1694982572 -0400	commit: Agregar CAMPOPS VENDEDDORES2222
+a0ae8da75a289dbf490bdd02b6f6c2ff36672d21 fe0e2950a05966a97ec12e36dc09bde35d1e88d5 menexca <luisdaniel_ca@hotmail.com> 1697171946 -0400	commit: Agregados indicadores vendedores MODIFsd
+fe0e2950a05966a97ec12e36dc09bde35d1e88d5 0c22e516318c2d2e5e6ec1ec516d5dddc8e317e9 menexca <luisdaniel_ca@hotmail.com> 1697172264 -0400	commit: Agregados indicadores vendedores MODIFsdssdfs
+0c22e516318c2d2e5e6ec1ec516d5dddc8e317e9 eb78ab223b82973fb49684b14aa55a4138979e3e menexca <luisdaniel_ca@hotmail.com> 1697173596 -0400	commit: Agregados indicadores vendedores MODIFsdssdfsdfsfdsfdfs
+eb78ab223b82973fb49684b14aa55a4138979e3e 2db01aa68e5112eab3067985e5ed40b0bb8bf1d0 menexca <luisdaniel_ca@hotmail.com> 1697176190 -0400	commit: Agregados indicadores vendedorefdgfgfdgfd
+2db01aa68e5112eab3067985e5ed40b0bb8bf1d0 3bec86f343279873de5acc0cbf0600338da84f0b menexca <luisdaniel_ca@hotmail.com> 1707255184 -0400	commit: modificado pedidos 300
+3bec86f343279873de5acc0cbf0600338da84f0b 229b2141099d67f87764fbb1e26f98817f0f76ef menexca <luisdaniel_ca@hotmail.com> 1707255819 -0400	commit: modificado pedidos 300sxd
+229b2141099d67f87764fbb1e26f98817f0f76ef 24b46f14234ee74ecf34d9c9cfc68c11f34c18b6 menexca <luisdaniel_ca@hotmail.com> 1707407866 -0400	commit: modificado pedidos 300sxdsdsdsd
+24b46f14234ee74ecf34d9c9cfc68c11f34c18b6 e51e6463acda012876123b58bf807d2863bd571b menexca <luisdaniel_ca@hotmail.com> 1707408464 -0400	commit: modificado pedidos 300sxdsdsdsdsddsdsdsd
+e51e6463acda012876123b58bf807d2863bd571b 70cc48e64a27655798d51baa6a499d5538616b90 menexca <luisdaniel_ca@hotmail.com> 1707422965 -0400	commit: modificado pedidos 300sxdsdsdsdsddsdsdsdasdasx
+70cc48e64a27655798d51baa6a499d5538616b90 bcb2b1db8ffe23b1b22664eaba8a70eb844380e3 menexca <luisdaniel_ca@hotmail.com> 1707423523 -0400	commit: modificado pedidos 300sxdsdsdsdsd123123
+bcb2b1db8ffe23b1b22664eaba8a70eb844380e3 954e3598dd5f1981a921ec3b41b49681e743382b menexca <luisdaniel_ca@hotmail.com> 1707449160 -0400	commit: modificado pedidos 300sxdsdsdsdsd123123fgdfgfdfdg
+954e3598dd5f1981a921ec3b41b49681e743382b 7fc36d725932b017445e622914a220bdaa46935a menexca <luisdaniel_ca@hotmail.com> 1707450031 -0400	commit: modificado pedidos 8SDD
+7fc36d725932b017445e622914a220bdaa46935a f8bda852a29b25bb694e96a2ae299b7518e32b2e menexca <luisdaniel_ca@hotmail.com> 1707450492 -0400	commit: modificado pedidos 8SDDXX
+f8bda852a29b25bb694e96a2ae299b7518e32b2e c58e5cf95a0b70570d76bb917af3f4abeb1a9abf menexca <luisdaniel_ca@hotmail.com> 1707450759 -0400	commit: modificado pedidos 8SDDXXccv
+c58e5cf95a0b70570d76bb917af3f4abeb1a9abf dcc614f98e4d23a2d72f27161bc7daa065ac00bf menexca <luisdaniel_ca@hotmail.com> 1707451678 -0400	commit: modificado pedidos 8SDDXXccvasasd
+dcc614f98e4d23a2d72f27161bc7daa065ac00bf cba3652787339c9d441846ea6a6222a3564e37af menexca <luisdaniel_ca@hotmail.com> 1707452082 -0400	commit: modificado pedidos 8SDDXXccvXXX2
+cba3652787339c9d441846ea6a6222a3564e37af ca4f186d31e2510722223d77aa704893ed87ec91 menexca <luisdaniel_ca@hotmail.com> 1707452209 -0400	commit: modificado pedidos 8SDDXXccvXXX2as
+ca4f186d31e2510722223d77aa704893ed87ec91 82d6b762f8effa5e9176ac7507d3e0c5a1ff3a28 menexca <luisdaniel_ca@hotmail.com> 1707452749 -0400	commit: modificado pedidos 8SDDXXccvXXX2asasd
+82d6b762f8effa5e9176ac7507d3e0c5a1ff3a28 73b57ae8827c2e4c3655fecd17adac21044c3b41 menexca <luisdaniel_ca@hotmail.com> 1707452879 -0400	commit: modificado pedidos 8SDDXXccvXXX2asasdaaaa
+73b57ae8827c2e4c3655fecd17adac21044c3b41 18f71e4ac8741c944c232f98464244f8fd87adf7 menexca <luisdaniel_ca@hotmail.com> 1707482252 -0400	commit: nuevo crearPedido
+18f71e4ac8741c944c232f98464244f8fd87adf7 01d3bb040cba062bcb5146320aef828d69f54e9c menexca <luisdaniel_ca@hotmail.com> 1707485430 -0400	commit: nuevo crearPedido22
+01d3bb040cba062bcb5146320aef828d69f54e9c 4cc7aa6aa89273ed59803d77614c515529e9143b menexca <luisdaniel_ca@hotmail.com> 1707911936 -0400	commit: nuevo crearPedido22
+4cc7aa6aa89273ed59803d77614c515529e9143b 56f9e3109249234dc3f10d6deeda7953a653673c menexca <luisdaniel_ca@hotmail.com> 1712554182 -0400	commit: add endpoint subidas de imagenes
+56f9e3109249234dc3f10d6deeda7953a653673c 52cb204adeef2f65becc044d2dc4792c4644813f menexca <luisdaniel_ca@hotmail.com> 1712554268 -0400	commit: add endpoint subidas de imagenes222
+52cb204adeef2f65becc044d2dc4792c4644813f 0ad0a2680af78f353b01e51875267270a833c4ec menexca <luisdaniel_ca@hotmail.com> 1712554497 -0400	commit: add endpoint subidas de imagenes333
+0ad0a2680af78f353b01e51875267270a833c4ec 46b652d6ee34157b918d0a3cdbb2013fbb0b8f97 menexca <luisdaniel_ca@hotmail.com> 1712555049 -0400	commit: add endpoint subidas de imagenes444
+46b652d6ee34157b918d0a3cdbb2013fbb0b8f97 875b4a5cb19eec6c1f96da65ae4c490da9e9610d menexca <luisdaniel_ca@hotmail.com> 1712575922 -0400	commit: add endpoint subidas de imagenes444d55
+875b4a5cb19eec6c1f96da65ae4c490da9e9610d 66b0025cff957443b7eb9c4107ac8701e905e9bb menexca <luisdaniel_ca@hotmail.com> 1712575987 -0400	commit: add endpoint subidas de imagenes444d5566
+66b0025cff957443b7eb9c4107ac8701e905e9bb 66b0025cff957443b7eb9c4107ac8701e905e9bb menexca <luisdaniel_ca@hotmail.com> 1712576422 -0400	checkout: moving from master to rama-rocas
