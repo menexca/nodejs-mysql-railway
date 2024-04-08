@@ -2,7 +2,7 @@ import express from 'express'
 import { pool } from './db.js'
 import { PORT } from './config.js'
 import multer from 'multer';
-import { bucket } from './firebaseConfig'; // Asegúrate de importar bucket desde donde lo hayas definido
+import { bucket } from './firebaseConfig.js'; // Asegúrate de importar bucket desde donde lo hayas definido
 
 const upload = multer({
   storage: multer.memoryStorage(),
