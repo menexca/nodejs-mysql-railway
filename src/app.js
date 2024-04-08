@@ -1,11 +1,49 @@
 import express from 'express'
 import { pool } from './db.js'
 import { PORT } from './config.js'
+import multer from 'multer';
+import { bucket } from './firebaseConfig'; // Asegúrate de importar bucket desde donde lo hayas definido
+
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 5 * 1024 * 1024, // por ejemplo, limitamos el tamaño del archivo a 5MB
+  },
+});
 
 const app = express()
 
 app.use(express.json());
 
+// Nuevo endpoint para cargar imágenes
+app.post('/upload', upload.single('image'), (req, res) => {
+  if (!req.file) {
+    res.status(400).send('No file uploaded.');
+    return;
+  }
+
+  const fileName = `${Date.now()}-${req.file.originalname}`;
+  const fileUpload = bucket.file(fileName);
+
+  const blobStream = fileUpload.createWriteStream({
+    metadata: {
+      contentType: req.file.mimetype,
+    },
+  });
+
+  blobStream.on('error', (error) => {
+    console.log(error);
+    res.status(500).send({ message: "Error al subir el archivo", error: error.message });
+  });
+
+  blobStream.on('finish', () => {
+    // El archivo se ha subido exitosamente
+    const publicUrl = `https://storage.googleapis.com/${bucket.name}/${fileUpload.name}`;
+    res.status(200).send({ url: publicUrl });
+  });
+
+  blobStream.end(req.file.buffer);
+});
 
 app.get('/Productos', async (req, res) => {
   const [rows] = await pool.query(`Select P.CodigoProducto, P.Nombre, CONCAT(CAST((P.CodigoProducto) AS CHAR),' ',P.Nombre) as NombreBusqueda, P.IVA, P.CantidadxBulto, P.Existencia, IFNULL(P.Existencia02,0) as Existencia02, IFNULL(P.Existencia03,0) as Existencia03, (IFNULL(P.Existencia02,0) + IFNULL(P.Existencia03,0)) as ExistenciaVenta , (case when P.PedidoVenta is null then 0 else P.PedidoVenta end) as PedidoVenta, IFNULL((SELECT PP.PrecioMoneda FROM ProductosPrecios PP WHERE PP.CodigoProducto=P.CodigoProducto AND PP.Tarifa='A'),0) as PrecioMoneda, IFNULL((SELECT PP.PrecioMoneda FROM ProductosPrecios PP WHERE PP.CodigoProducto=P.CodigoProducto AND PP.Tarifa='B'),0) as PrecioMonedaB, P.CodigoGrupo, P.Marca from Productos P where Visible=1 Order by P.CodigoGrupo, P.Marca, P.Nombre`)
