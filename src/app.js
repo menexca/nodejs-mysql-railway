@@ -936,6 +936,34 @@ app.post('/AgregarPlanificacionRenglon', async (req, res) => {
   }
 });
 
+app.get('/Sugerido/:CodigoCliente/:Fecha', async (req, res) => {
+  const codigoCliente = req.params.CodigoCliente;
+  const fecha = req.params.Fecha;
+  const query = `
+  select
+    pr.CodigoProducto,
+    sum(pr.Despacho)/max(prod.CantidadxBulto) as Cantidad,
+    max(p.FechaEmision) as UltimaVenta
+  from Pedidos p
+  inner join PedidosRenglones pr on pr.Numero=p.Numero
+  inner join Productos prod on prod.CodigoProducto=pr.CodigoProducto
+  inner join Clientes c on c.CodigoCliente=p.CodigoCliente
+
+  where DATE(p.FechaEmision) >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH) and p.CodigoCliente = ?
+  group by pr.CodigoProducto
+  having sum(pr.Despacho)<>0
+  order by pr.CodigoProducto`;
+  
+  try {
+    // const [rows] = await pool.query(query, [codigoCliente, fecha]);
+    const [rows] = await pool.query(query, [codigoCliente]);
+    res.json(rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error en la consulta' });
+  }
+})
+
 app.get('/create', async (req, res) => {
   const result = await pool.query('INSERT INTO Pedidos VALUES ("PE000002", "2023-03-26 14:35:41", "2023-03-26 14:35:41", "V-26036875", 250.00, 0.00, 40.00, 0.00, 290.00, 0.00, "001", "BLA BLA BLA", "A", "01", NULL, "PE", "LUIS", 25.00, "$", 10.00, 0.00, 1.60, 0.00, 11.60, 2, NULL)')
   res.json(result)
