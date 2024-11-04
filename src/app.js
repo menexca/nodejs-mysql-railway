@@ -31,6 +31,27 @@ app.get('/Productos/:FechaSync', async (req, res) => {
   }
 })
 
+
+app.get('/ProductosUnificados', async (req, res) => {
+  const [rows] = await pool.query(`Select CodigoProducto, Nombre, NombreBusqueda, IVA, CantidadxBulto, Existencia, Existencia02, Existencia03, ExistenciaVenta , PedidoVenta, PrecioMoneda, PrecioMonedaB, CodigoGrupo, Marca, FechaSync, Capacidad, GradosAlcohol, TipoAlcohol, TieneImagen*1 as TieneImagen from ViewProductosUnificados P Order by P.CodigoGrupo, P.Marca, P.Nombre`)
+  res.json(rows)
+})
+
+//Productos iltrados por FechSync
+app.get('/ProductosUnificados/:FechaSync', async (req, res) => {
+  const fechaSync = req.params.FechaSync;
+  const query = `Select CodigoProducto, Nombre, NombreBusqueda, IVA, CantidadxBulto, Existencia, Existencia02, Existencia03, ExistenciaVenta , PedidoVenta, PrecioMoneda, PrecioMonedaB, CodigoGrupo, Marca, FechaSync, Capacidad, GradosAlcohol, TipoAlcohol, TieneImagen*1 as TieneImagen from ViewProductosUnificados P where FechaSync >= ? Order by P.CodigoGrupo, P.Marca, P.Nombre`;
+   
+  try {
+    const [rows] = await pool.query(query, [fechaSync]);
+    res.json(rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error en la consulta' });
+  }
+})
+
+
 // Obtener todos los clientes
 app.get('/Clientes', async (req, res) => {
   const [rows] = await pool.query(`SELECT CodigoCliente, Nombre, CONCAT(CAST((CodigoCliente) AS CHAR),' ',Nombre) as NombreBusqueda, (case when RazonSocial is null or RazonSocial='null' then '' else RazonSocial end) as RazonSocial, Direccion, (case when DiasVisita not in (1,2,3,4,5,6,7) then 8 else DiasVisita end) as DiasVisita, (case when Telefonos='null' then '' else Telefonos end) as Telefonos, IFNULL(LimiteCredito,0) as LimiteCredito, IFNULL(SaldoMonedaTotal,0) AS SaldoMonedaTotal, IFNULL((case when SaldoMonedaVencido>SaldoMonedaTotal then SaldoMonedaTotal else SaldoMonedaVencido end),0) as SaldoMonedaVencido, date(ultimopago) as ultimopago, ProximoVencer, 
