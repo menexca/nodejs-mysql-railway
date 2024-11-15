@@ -33,14 +33,14 @@ app.get('/Productos/:FechaSync', async (req, res) => {
 
 
 app.get('/ProductosUnificados', async (req, res) => {
-  const [rows] = await pool.query(`Select CodigoProducto, Nombre, NombreBusqueda, IVA, CantidadxBulto, Existencia, Existencia02, Existencia03, ExistenciaVenta , PedidoVenta, PrecioMoneda, PrecioMonedaB, CodigoGrupo, Marca, FechaSync, Capacidad, GradosAlcohol, TipoAlcohol, TieneImagen*1 as TieneImagen from ViewProductosUnificados P Order by P.CodigoGrupo, P.Marca, P.Nombre`)
+  const [rows] = await pool.query(`Select CodigoProducto, Nombre, NombreBusqueda, IVA, CantidadxBulto, Existencia, Existencia02, Existencia03, ExistenciaVenta , PedidoVenta, PrecioMoneda, PrecioMonedaB, CodigoGrupo, Marca, FechaSync, Capacidad, GradosAlcohol, TipoAlcohol, TieneImagen*1 as TieneImagen, ProveedorNombre from ViewProductosUnificados P Order by P.CodigoGrupo, P.Marca, P.Nombre`)
   res.json(rows)
 })
 
 //Productos iltrados por FechSync
 app.get('/ProductosUnificados/:FechaSync', async (req, res) => {
   const fechaSync = req.params.FechaSync;
-  const query = `Select CodigoProducto, Nombre, NombreBusqueda, IVA, CantidadxBulto, Existencia, Existencia02, Existencia03, ExistenciaVenta , PedidoVenta, PrecioMoneda, PrecioMonedaB, CodigoGrupo, Marca, FechaSync, Capacidad, GradosAlcohol, TipoAlcohol, TieneImagen*1 as TieneImagen from ViewProductosUnificados P where FechaSync >= ? Order by P.CodigoGrupo, P.Marca, P.Nombre`;
+  const query = `Select CodigoProducto, Nombre, NombreBusqueda, IVA, CantidadxBulto, Existencia, Existencia02, Existencia03, ExistenciaVenta , PedidoVenta, PrecioMoneda, PrecioMonedaB, CodigoGrupo, Marca, FechaSync, Capacidad, GradosAlcohol, TipoAlcohol, TieneImagen*1 as TieneImagen, ProveedorNombre from ViewProductosUnificados P where FechaSync >= ? Order by P.CodigoGrupo, P.Marca, P.Nombre`;
    
   try {
     const [rows] = await pool.query(query, [fechaSync]);
