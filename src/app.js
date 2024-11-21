@@ -991,7 +991,7 @@ app.post('/SolicitudImagen', async (req, res) => {
   const newUserData = req.body; // Datos del nuevo usuario en el cuerpo de la solicitud
 
   const insertQuery = `
-    INSERT INTO SolicitudesImagenes (CodigoProducto, Opcion, Descripcion) VALUES (?, ?, ?)`;
+    INSERT INTO SolicitudesImagenes (CodigoProducto, Opcion, Descripcion, FechaHora) VALUES (?, ?, ?, DATE_SUB(NOW(), INTERVAL 4 HOUR))`;
 
   const insertValues = [
     newUserData.codigoProducto, newUserData.opcion, newUserData.descripcion
@@ -1002,7 +1002,7 @@ app.post('/SolicitudImagen', async (req, res) => {
     res.status(200).json({ message: 'Solicitud de imagen agregada correctamente' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error al agregar el usuario' });
+    res.status(500).json({ error: 'Error al agregar la solicitud' });
   }
 });
 
