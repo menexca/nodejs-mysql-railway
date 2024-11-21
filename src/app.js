@@ -986,6 +986,26 @@ app.get('/Sugerido/:CodigoCliente/:Fecha', async (req, res) => {
   }
 })
 
+//agregar usuario nuevo
+app.post('/SolicitudImagen', async (req, res) => {
+  const newUserData = req.body; // Datos del nuevo usuario en el cuerpo de la solicitud
+
+  const insertQuery = `
+    INSERT INTO SolicitudesImagenes (CodigoProducto, Opcion, Descripcion) VALUES (?, ?, ?)`;
+
+  const insertValues = [
+    newUserData.codigoProducto, newUserData.opcion, newUserData.descripcion
+  ];
+
+  try {
+    await pool.query(insertQuery, insertValues);
+    res.status(200).json({ message: 'Solicitud de imagen agregada correctamente' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al agregar el usuario' });
+  }
+});
+
 app.get('/create', async (req, res) => {
   const result = await pool.query('INSERT INTO Pedidos VALUES ("PE000002", "2023-03-26 14:35:41", "2023-03-26 14:35:41", "V-26036875", 250.00, 0.00, 40.00, 0.00, 290.00, 0.00, "001", "BLA BLA BLA", "A", "01", NULL, "PE", "LUIS", 25.00, "$", 10.00, 0.00, 1.60, 0.00, 11.60, 2, NULL)')
   res.json(result)
