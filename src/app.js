@@ -1006,6 +1006,14 @@ app.post('/SolicitudImagen', async (req, res) => {
   }
 });
 
+// Obtener todos los clientes
+app.get('/CuentasPorCobrar', async (req, res) => {
+  const [rows] = await pool.query(`select CodigoCliente, Tipo, Numero, Emision, Vencimiento, FechaDespacho, EstatusGuia, MontoFactura, MontoNotasCredito, SaldoPendiente, Vendedor, Cambio, PlanTrabajo from CuentasPorCobrar `)
+  res.json(rows)
+})
+
+
+
 app.get('/create', async (req, res) => {
   const result = await pool.query('INSERT INTO Pedidos VALUES ("PE000002", "2023-03-26 14:35:41", "2023-03-26 14:35:41", "V-26036875", 250.00, 0.00, 40.00, 0.00, 290.00, 0.00, "001", "BLA BLA BLA", "A", "01", NULL, "PE", "LUIS", 25.00, "$", 10.00, 0.00, 1.60, 0.00, 11.60, 2, NULL)')
   res.json(result)
