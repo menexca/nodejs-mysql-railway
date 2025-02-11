@@ -1008,7 +1008,7 @@ app.post('/SolicitudImagen', async (req, res) => {
 
 // Obtener todos los clientes
 app.get('/CuentasPorCobrar', async (req, res) => {
-  const [rows] = await pool.query(`select CodigoCliente, Tipo, Numero, Emision, Vencimiento, FechaDespacho, EstatusGuia, MontoFactura, MontoNotasCredito, SaldoPendiente, Vendedor, v.Nombre as NombreVendedor, Cambio, PlanTrabajo from CuentasPorCobrar cxc left join Vendedores v on v.codigo=cxc.vendedor`)
+  const [rows] = await pool.query(`select cxc.CodigoCliente, c.Nombre as NombreCliente, Tipo, Numero, Emision, Vencimiento, FechaDespacho, EstatusGuia, MontoFactura, MontoNotasCredito, SaldoPendiente, cxc.Vendedor, v.Nombre as NombreVendedor, Cambio, PlanTrabajo from CuentasPorCobrar cxc left join Clientes c on c.CodigoCliente=cxc.CodigoCliente left join Vendedores v on v.codigo=cxc.vendedor`)
   res.json(rows)
 })
 
