@@ -1006,10 +1006,45 @@ app.post('/SolicitudImagen', async (req, res) => {
   }
 });
 
-// Obtener todos los clientes
+// Obtener todas las cxc
 app.get('/CuentasPorCobrar', async (req, res) => {
   const [rows] = await pool.query(`select cxc.CodigoCliente, c.Nombre as NombreCliente, Tipo, Numero, Emision, Vencimiento, FechaDespacho, EstatusGuia, MontoFactura, MontoNotasCredito, SaldoPendiente, ifnull(cxc.Vendedor,'') as Vendedor, ifnull(v.Nombre,'') as NombreVendedor, Cambio, ifnull(PlanTrabajo,0) as PlanTrabajo from CuentasPorCobrar cxc left join Clientes c on c.CodigoCliente=cxc.CodigoCliente left join Vendedores v on v.codigo=cxc.vendedor`)
   res.json(rows)
+})
+
+// Obtener las cxc de un cliente
+app.get('/CuentasPorCobrar/:CodigoCliente', async (req, res) => {
+  const codigoCliente = req.params.CodigoCliente;
+  const query = `select 
+      cxc.CodigoCliente, 
+      c.Nombre as NombreCliente, 
+      Tipo, 
+      Numero, 
+      Emision, 
+      Vencimiento, 
+      FechaDespacho, 
+      EstatusGuia, 
+      MontoFactura, 
+      MontoNotasCredito, 
+      SaldoPendiente, ifnull(cxc.Vendedor,'') as Vendedor, 
+      ifnull(v.Nombre,'') as NombreVendedor, 
+      Cambio, 
+      ifnull(PlanTrabajo,0) as PlanTrabajo 
+    from CuentasPorCobrar cxc 
+    left join Clientes c on c.CodigoCliente=cxc.CodigoCliente 
+    left join Vendedores v on v.codigo=cxc.vendedor
+
+    where cxc.CodigoCliente = ?
+
+    order by Emision ASC`;
+  
+  try {
+    const [rows] = await pool.query(query, [codigoCliente]);
+    res.json(rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error en la consulta' });
+  }
 })
 
 
