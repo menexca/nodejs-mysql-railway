@@ -504,7 +504,7 @@ app.get('/SupervisoresDisponibles', async (req, res) => {
 
 app.get('/Usuarios', async (req, res) => {
   try {
-    const [rows] = await pool.query(`SELECT Usuario, Contrasena, NombreCompleto, CorreoElectronico, FechaRegistro, IFNULL(UltimoInicioSesion,'2000-01-01 00:00:00') as UltimoInicioSesion, Rol, Estatus, CodigoVendedor, IFNULL(FechaNacimiento,'2000-01-01 00:00:00') as FechaNacimiento, Direccion, NumeroTelefono, Cedula, IFNULL(Almacen,'') AS Almacen, SupervisadoPor, VersionInstalada FROM Usuarios ORDER BY NombreCompleto`);
+    const [rows] = await pool.query(`SELECT Usuario, Contrasena, NombreCompleto, CorreoElectronico, FechaRegistro, IFNULL(UltimoInicioSesion,'2000-01-01 00:00:00') as UltimoInicioSesion, Rol, Estatus, CodigoVendedor, IFNULL(FechaNacimiento,'2000-01-01 00:00:00') as FechaNacimiento, Direccion, NumeroTelefono, Cedula, IFNULL(Almacen,'') AS Almacen, SupervisadoPor, VersionInstalada, UsaPrecioC FROM Usuarios ORDER BY NombreCompleto`);
 
     // Envía una respuesta indicando que la consulta se ha realizado correctamente
     res.status(200).json(rows);
@@ -546,7 +546,7 @@ app.post('/Usuarios', async (req, res) => {
 app.get('/Usuarios/:Usuario', async (req, res) => {
   try {
     const usuario = req.params.Usuario;
-    const query = `SELECT Usuario, Contrasena, NombreCompleto, CorreoElectronico, FechaRegistro, IFNULL(UltimoInicioSesion,'2000-01-01 00:00:00') as UltimoInicioSesion, Rol, Estatus, CodigoVendedor, IFNULL(FechaNacimiento,'2000-01-01 00:00:00') as FechaNacimiento, Direccion, NumeroTelefono, Cedula, IFNULL(Almacen,'') AS Almacen, SupervisadoPor, VersionInstalada FROM Usuarios where Usuario = ?`;
+    const query = `SELECT Usuario, Contrasena, NombreCompleto, CorreoElectronico, FechaRegistro, IFNULL(UltimoInicioSesion,'2000-01-01 00:00:00') as UltimoInicioSesion, Rol, Estatus, CodigoVendedor, IFNULL(FechaNacimiento,'2000-01-01 00:00:00') as FechaNacimiento, Direccion, NumeroTelefono, Cedula, IFNULL(Almacen,'') AS Almacen, SupervisadoPor, VersionInstalada, UsaPrecioC FROM Usuarios where Usuario = ?`;
   
     const [rows] = await pool.query(query, [usuario]);
     res.status(200).json(rows);
@@ -597,9 +597,9 @@ app.get('/UsuariosVerificacion/:User/:Pass', async (req, res) => {
   try { 
     const usuario = req.params.User;
     const contrasena = req.params.Pass;
-    const query = `SELECT Usuario, Contrasena, NombreCompleto, CorreoElectronico, FechaRegistro, IFNULL(UltimoInicioSesion,'2000-01-01 00:00:00') as UltimoInicioSesion, Rol, Estatus, CodigoVendedor, IFNULL(FechaNacimiento,'2000-01-01 00:00:00') as FechaNacimiento, Direccion, NumeroTelefono, Cedula, IFNULL(Almacen,'') AS Almacen, SupervisadoPor, VersionInstalada FROM Usuarios where TRIM(LOWER(Usuario)) = ? and Contrasena = ?`;
+    const query = `SELECT Usuario, Contrasena, NombreCompleto, CorreoElectronico, FechaRegistro, IFNULL(UltimoInicioSesion,'2000-01-01 00:00:00') as UltimoInicioSesion, Rol, Estatus, CodigoVendedor, IFNULL(FechaNacimiento,'2000-01-01 00:00:00') as FechaNacimiento, Direccion, NumeroTelefono, Cedula, IFNULL(Almacen,'') AS Almacen, SupervisadoPor, VersionInstalada, UsaPrecioC FROM Usuarios where TRIM(LOWER(Usuario)) = ? and Contrasena = ?`;
 
-    const query2 = `SELECT Usuario, Contrasena, NombreCompleto, CorreoElectronico, FechaRegistro, IFNULL(UltimoInicioSesion,'2000-01-01 00:00:00') as UltimoInicioSesion, Rol, Estatus, CodigoVendedor, IFNULL(FechaNacimiento,'2000-01-01 00:00:00') as FechaNacimiento, Direccion, NumeroTelefono, Cedula, IFNULL(Almacen,'') AS Almacen, SupervisadoPor, VersionInstalada FROM Usuarios where TRIM(LOWER(Usuario)) = ?`;
+    const query2 = `SELECT Usuario, Contrasena, NombreCompleto, CorreoElectronico, FechaRegistro, IFNULL(UltimoInicioSesion,'2000-01-01 00:00:00') as UltimoInicioSesion, Rol, Estatus, CodigoVendedor, IFNULL(FechaNacimiento,'2000-01-01 00:00:00') as FechaNacimiento, Direccion, NumeroTelefono, Cedula, IFNULL(Almacen,'') AS Almacen, SupervisadoPor, VersionInstalada, UsaPrecioC FROM Usuarios where TRIM(LOWER(Usuario)) = ?`;
   
     const [rows] = await pool.query(query, [usuario,contrasena]);
     const [rows2] = await pool.query(query2, [usuario]);
