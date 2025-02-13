@@ -1008,8 +1008,61 @@ app.post('/SolicitudImagen', async (req, res) => {
 
 // Obtener todas las cxc
 app.get('/CuentasPorCobrar', async (req, res) => {
-  const [rows] = await pool.query(`select cxc.CodigoCliente, c.Nombre as NombreCliente, Tipo, Numero, Emision, Vencimiento, FechaDespacho, EstatusGuia, MontoFactura, MontoNotasCredito, SaldoPendiente, ifnull(cxc.Vendedor,'') as Vendedor, ifnull(v.Nombre,'') as NombreVendedor, Cambio, ifnull(PlanTrabajo,0) as PlanTrabajo from CuentasPorCobrar cxc left join Clientes c on c.CodigoCliente=cxc.CodigoCliente left join Vendedores v on v.codigo=cxc.vendedor`)
+  const [rows] = await pool.query(
+    `select 
+      cxc.CodigoCliente, 
+      c.Nombre as NombreCliente, 
+      Tipo, 
+      Numero, 
+      Emision, 
+      Vencimiento, 
+      FechaDespacho, 
+      EstatusGuia, 
+      MontoFactura, 
+      MontoNotasCredito, 
+      SaldoPendiente, 
+      ifnull(cxc.Vendedor,'') as Vendedor, 
+      ifnull(v.Nombre,'') as NombreVendedor, 
+      Cambio, 
+      ifnull(PlanTrabajo,0) as PlanTrabajo 
+    from CuentasPorCobrar cxc 
+    left join Clientes c on c.CodigoCliente=cxc.CodigoCliente 
+    left join Vendedores v on v.codigo=cxc.vendedor`
+  )
   res.json(rows)
+})
+
+// obtener las cxc de un vendedor
+app.get('/CuentasPorCobrar/:Vendedor', async (req, res) => {
+  const vendedor = req.params.Vendedor;
+  const query = `select 
+    cxc.CodigoCliente, 
+    c.Nombre as NombreCliente, 
+    Tipo, 
+    Numero, 
+    Emision, 
+    Vencimiento, 
+    FechaDespacho, 
+    EstatusGuia, 
+    MontoFactura, 
+    MontoNotasCredito, 
+    SaldoPendiente, 
+    ifnull(cxc.Vendedor,'') as Vendedor, 
+    ifnull(v.Nombre,'') as NombreVendedor, 
+    Cambio, 
+    ifnull(PlanTrabajo,0) as PlanTrabajo 
+  from CuentasPorCobrar cxc 
+  left join Clientes c on c.CodigoCliente=cxc.CodigoCliente 
+  left join Vendedores v on v.codigo=cxc.vendedor
+  WHERE cxc.Vendedor = ?`;
+  
+  try {
+    const [rows] = await pool.query(query, [vendedor]);
+    res.json(rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error en la consulta' });
+  }
 })
 
 // Obtener las cxc de un cliente
