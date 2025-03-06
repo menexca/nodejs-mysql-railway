@@ -1092,7 +1092,7 @@ app.get('/CuentasPorCobrar/:Vendedor', async (req, res) => {
 })
 
 // Obtener las cxc de un cliente
-app.get('/CuentasPorCobrar/:CodigoCliente', async (req, res) => {
+app.get('/CuentasPorCobrar/Cliente/:CodigoCliente', async (req, res) => {
   const codigoCliente = req.params.CodigoCliente;
   const query = `select 
       cxc.CodigoCliente, 
