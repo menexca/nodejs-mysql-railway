@@ -1119,7 +1119,7 @@ app.get('/CuentasPorCobrar/Cliente/:CodigoCliente', async (req, res) => {
   
   try {
     const [rows] = await pool.query(query, [codigoCliente]);
-    res.json(rows);
+    res.status(200).json(rows);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error en la consulta' });
