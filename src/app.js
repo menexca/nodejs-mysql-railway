@@ -1061,7 +1061,14 @@ app.get('/CuentasPorCobrar', async (req, res) => {
     from CuentasPorCobrar cxc 
     left join Clientes c on c.CodigoCliente=cxc.CodigoCliente 
     left join Vendedores v on v.codigo=cxc.vendedor 
-    where SaldoPendiente<>0`
+    where (case 
+            when Tipo IN ('AA','NC') AND SaldoPendiente<>0
+              then (select sum(MontoFactura) 
+                    from CuentasPorCobrar cxc2 
+                    where cxc2.Numero=cxc.Numero
+                    and cxc2.CodigoCliente=cxc.CodigoCliente)
+            else SaldoPendiente 
+          end)<>0`
   )
   res.json(rows)
 })
@@ -1095,7 +1102,15 @@ app.get('/CuentasPorCobrar/:Vendedor', async (req, res) => {
   from CuentasPorCobrar cxc 
   left join Clientes c on c.CodigoCliente=cxc.CodigoCliente 
   left join Vendedores v on v.codigo=cxc.vendedor
-  WHERE cxc.Vendedor = ? and SaldoPendiente<>0`;
+  WHERE cxc.Vendedor = ? 
+  and (case 
+        when Tipo IN ('AA','NC') AND SaldoPendiente<>0
+          then (select sum(MontoFactura) 
+                from CuentasPorCobrar cxc2 
+                where cxc2.Numero=cxc.Numero
+                and cxc2.CodigoCliente=cxc.CodigoCliente)
+        else SaldoPendiente 
+      end)<>0`;
   
   try {
     const [rows] = await pool.query(query, [vendedor]);
@@ -1136,7 +1151,15 @@ app.get('/CuentasPorCobrar/Cliente/:CodigoCliente', async (req, res) => {
     left join Clientes c on c.CodigoCliente=cxc.CodigoCliente 
     left join Vendedores v on v.codigo=cxc.vendedor
 
-    where cxc.CodigoCliente = ? and SaldoPendiente<>0
+    where cxc.CodigoCliente = ? 
+    and (case 
+      when Tipo IN ('AA','NC') AND SaldoPendiente<>0
+        then (select sum(MontoFactura) 
+              from CuentasPorCobrar cxc2 
+              where cxc2.Numero=cxc.Numero
+              and cxc2.CodigoCliente=cxc.CodigoCliente)
+      else SaldoPendiente 
+    end)<>0
 
     order by Emision ASC`;
   
