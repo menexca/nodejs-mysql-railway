@@ -1038,7 +1038,7 @@ app.get('/CuentasPorCobrar', async (req, res) => {
     `select 
       cxc.CodigoCliente, 
       c.Nombre as NombreCliente, 
-      Tipo, 
+      (case when Tipo='FC' and SaldoPendiente<0 then 'AA' else Tipo end) as Tipo,
       Numero, 
       Emision, 
       Vencimiento, 
@@ -1065,7 +1065,7 @@ app.get('/CuentasPorCobrar/:Vendedor', async (req, res) => {
   const query = `select 
     cxc.CodigoCliente, 
     c.Nombre as NombreCliente, 
-    Tipo, 
+    (case when Tipo='FC' and SaldoPendiente<0 then 'AA' else Tipo end) as Tipo,
     Numero, 
     Emision, 
     Vencimiento, 
@@ -1098,7 +1098,7 @@ app.get('/CuentasPorCobrar/Cliente/:CodigoCliente', async (req, res) => {
   const query = `select 
       cxc.CodigoCliente, 
       c.Nombre as NombreCliente, 
-      Tipo, 
+      (case when Tipo='FC' and SaldoPendiente<0 then 'AA' else Tipo end) as Tipo, 
       Numero, 
       Emision, 
       Vencimiento, 
