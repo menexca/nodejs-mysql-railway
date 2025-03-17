@@ -1053,8 +1053,7 @@ app.get('/CuentasPorCobrar', async (req, res) => {
       ifnull(PlanTrabajo,0) as PlanTrabajo 
     from CuentasPorCobrar cxc 
     left join Clientes c on c.CodigoCliente=cxc.CodigoCliente 
-    left join Vendedores v on v.codigo=cxc.vendedor
-    where SaldoPendiente<>0`
+    left join Vendedores v on v.codigo=cxc.vendedor `
   )
   res.json(rows)
 })
@@ -1081,7 +1080,7 @@ app.get('/CuentasPorCobrar/:Vendedor', async (req, res) => {
   from CuentasPorCobrar cxc 
   left join Clientes c on c.CodigoCliente=cxc.CodigoCliente 
   left join Vendedores v on v.codigo=cxc.vendedor
-  WHERE cxc.Vendedor = ? and SaldoPendiente<>0`;
+  WHERE cxc.Vendedor = ?`;
   
   try {
     const [rows] = await pool.query(query, [vendedor]);
@@ -1114,7 +1113,7 @@ app.get('/CuentasPorCobrar/Cliente/:CodigoCliente', async (req, res) => {
     left join Clientes c on c.CodigoCliente=cxc.CodigoCliente 
     left join Vendedores v on v.codigo=cxc.vendedor
 
-    where cxc.CodigoCliente = ? and SaldoPendiente<>0
+    where cxc.CodigoCliente = ?
 
     order by Emision ASC`;
   
