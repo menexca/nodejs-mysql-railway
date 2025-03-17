@@ -1046,7 +1046,14 @@ app.get('/CuentasPorCobrar', async (req, res) => {
       EstatusGuia, 
       MontoFactura, 
       MontoNotasCredito, 
-      SaldoPendiente, 
+      (case 
+        when Tipo IN ('AA','NC') AND SaldoPendiente<>0
+          then (select sum(MontoFactura) 
+                from CuentasPorCobrar cxc2 
+                where cxc2.Numero=cxc.Numero
+                and cxc2.CodigoCliente=cxc.CodigoCliente)
+        else SaldoPendiente 
+      end) as SaldoPendiente,
       ifnull(cxc.Vendedor,'') as Vendedor, 
       ifnull(v.Nombre,'') as NombreVendedor, 
       Cambio, 
@@ -1073,7 +1080,14 @@ app.get('/CuentasPorCobrar/:Vendedor', async (req, res) => {
     EstatusGuia, 
     MontoFactura, 
     MontoNotasCredito, 
-    SaldoPendiente, 
+    (case 
+      when Tipo IN ('AA','NC') AND SaldoPendiente<>0
+        then (select sum(MontoFactura) 
+              from CuentasPorCobrar cxc2 
+              where cxc2.Numero=cxc.Numero
+              and cxc2.CodigoCliente=cxc.CodigoCliente)
+      else SaldoPendiente 
+    end) as SaldoPendiente,
     ifnull(cxc.Vendedor,'') as Vendedor, 
     ifnull(v.Nombre,'') as NombreVendedor, 
     Cambio, 
@@ -1106,7 +1120,15 @@ app.get('/CuentasPorCobrar/Cliente/:CodigoCliente', async (req, res) => {
       EstatusGuia, 
       MontoFactura, 
       MontoNotasCredito, 
-      SaldoPendiente, ifnull(cxc.Vendedor,'') as Vendedor, 
+      (case 
+        when Tipo IN ('AA','NC') AND SaldoPendiente<>0
+          then (select sum(MontoFactura) 
+                from CuentasPorCobrar cxc2 
+                where cxc2.Numero=cxc.Numero
+                and cxc2.CodigoCliente=cxc.CodigoCliente)
+        else SaldoPendiente 
+      end) as SaldoPendiente,
+      ifnull(cxc.Vendedor,'') as Vendedor, 
       ifnull(v.Nombre,'') as NombreVendedor, 
       Cambio, 
       ifnull(PlanTrabajo,0) as PlanTrabajo 
