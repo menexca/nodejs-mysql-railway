@@ -1173,6 +1173,27 @@ app.get('/CuentasPorCobrar/Cliente/:CodigoCliente', async (req, res) => {
 })
 
 
+// Filtrar tasa de cambio segun fecha por supervisor
+app.get('/GetCambio/:Fecha', async (req, res) => {
+  const fecha = req.params.Fecha;
+  const query = `
+    SELECT 
+      CAMBIO
+    FROM MonedasCambio 
+    WHERE DATE(Fecha)<=DATE(?)
+    ORDER BY fecha DESC
+    LIMIT 1`;
+  
+  try {
+    const [rows] = await pool.query(query, [fecha]);
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error en la consulta' });
+  }
+})
+
+
 
 app.get('/create', async (req, res) => {
   const result = await pool.query('INSERT INTO Pedidos VALUES ("PE000002", "2023-03-26 14:35:41", "2023-03-26 14:35:41", "V-26036875", 250.00, 0.00, 40.00, 0.00, 290.00, 0.00, "001", "BLA BLA BLA", "A", "01", NULL, "PE", "LUIS", 25.00, "$", 10.00, 0.00, 1.60, 0.00, 11.60, 2, NULL)')
