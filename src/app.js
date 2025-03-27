@@ -1058,7 +1058,8 @@ app.get('/CuentasPorCobrar', async (req, res) => {
       ifnull(v.Nombre,'') as NombreVendedor, 
       Cambio, 
       ifnull(PlanTrabajo,0) as PlanTrabajo,
-      ifnull(c.PorcentajeIVA,0) as PorcentajeRetencion
+      ifnull(c.PorcentajeIVA,0) as PorcentajeRetencion,
+      RetencionAplicada
     from CuentasPorCobrar cxc 
     left join Clientes c on c.CodigoCliente=cxc.CodigoCliente 
     left join Vendedores v on v.codigo=cxc.vendedor 
@@ -1100,7 +1101,8 @@ app.get('/CuentasPorCobrar/:Vendedor', async (req, res) => {
     ifnull(v.Nombre,'') as NombreVendedor, 
     Cambio, 
     ifnull(PlanTrabajo,0) as PlanTrabajo,
-    ifnull(c.PorcentajeIVA,0) as PorcentajeRetencion
+    ifnull(c.PorcentajeIVA,0) as PorcentajeRetencion,
+    RetencionAplicada
   from CuentasPorCobrar cxc 
   left join Clientes c on c.CodigoCliente=cxc.CodigoCliente 
   left join Vendedores v on v.codigo=cxc.vendedor
@@ -1149,7 +1151,8 @@ app.get('/CuentasPorCobrar/Cliente/:CodigoCliente', async (req, res) => {
       ifnull(v.Nombre,'') as NombreVendedor, 
       Cambio, 
       ifnull(PlanTrabajo,0) as PlanTrabajo,
-      ifnull(c.PorcentajeIVA,0) as PorcentajeRetencion 
+      ifnull(c.PorcentajeIVA,0) as PorcentajeRetencion,
+      RetencionAplicada
     from CuentasPorCobrar cxc 
     left join Clientes c on c.CodigoCliente=cxc.CodigoCliente 
     left join Vendedores v on v.codigo=cxc.vendedor
