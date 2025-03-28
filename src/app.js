@@ -1200,6 +1200,25 @@ app.get('/GetCambio/:Fecha', async (req, res) => {
 })
 
 
+app.get('/Bancos', async (req, res) => {
+  const [rows] = await pool.query(`
+    select 
+      CodigoBanco, Nombre, Cuenta, IdMoneda
+    from Bancos
+    where Fax=1
+  `)
+  res.json(rows)
+})
+
+app.get('/EntidadesBancarias', async (req, res) => {
+  const [rows] = await pool.query(`
+    SELECT CodigoBanco, Nombre
+    FROM EntidadesBancarias
+  `)
+  res.json(rows)
+})
+
+
 
 app.get('/create', async (req, res) => {
   const result = await pool.query('INSERT INTO Pedidos VALUES ("PE000002", "2023-03-26 14:35:41", "2023-03-26 14:35:41", "V-26036875", 250.00, 0.00, 40.00, 0.00, 290.00, 0.00, "001", "BLA BLA BLA", "A", "01", NULL, "PE", "LUIS", 25.00, "$", 10.00, 0.00, 1.60, 0.00, 11.60, 2, NULL)')
