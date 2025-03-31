@@ -1239,7 +1239,7 @@ app.post('/RegistrarCobros', async (req, res) => {
       ) 
       VALUES (
         ?, ?, ?, DATE_SUB(NOW(), INTERVAL 4 HOUR), 
-        ?, ?, ?, ?, 
+        ?, ?, 'PruebaCM', ?, 
         ?, ?, ?, ?, ?, 
         ?, ?, ?, ?, ?
       )`;
