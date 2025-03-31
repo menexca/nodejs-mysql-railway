@@ -1231,7 +1231,7 @@ app.post('/RegistrarCobros', async (req, res) => {
 
     // Consulta SQL para insertar los cobros
     const insertQuery = `
-      INSERT INTO Usuarios (
+      INSERT INTO ClientesMovimientos (
         CodigoCliente, Tipo, Numero, Emision, 
         Vencimiento, FechaDocumento, Comprobante, Importe, 
         TipoDocCancela, Vendedor, Importe2, Cambio, Moneda, 
