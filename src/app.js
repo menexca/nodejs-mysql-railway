@@ -1220,6 +1220,73 @@ app.get('/EntidadesBancarias', async (req, res) => {
 
 
 
+//Crear Cobros
+app.post('/RegistrarCobros', async (req, res) => {
+  try {
+    // Obtener los datos de cobro(s) del body
+    const cobros = req.body;
+    
+    // Si es un solo cobro (objeto), lo convertimos a array para manejar uniformemente
+    const cobrosArray = Array.isArray(cobros) ? cobros : [cobros];
+
+    // Consulta SQL para insertar los cobros
+    const insertQuery = `
+      INSERT INTO Usuarios (
+        CodigoCliente, Tipo, Numero, Emision, 
+        Vencimiento, FechaDocumento, Comprobante, Importe, 
+        TipoDocCancela, Vendedor, Importe2, Cambio, Moneda, 
+        IdMoneda, CodigoBanco, NumeroReferencia, CodigoBancoOrigen, CodigoCaja
+      ) 
+      VALUES (
+        ?, ?, ?, DATE_SUB(NOW(), INTERVAL 4 HOUR), 
+        ?, ?, ?, ?, 
+        ?, ?, ?, ?, ?, 
+        ?, ?, ?, ?, ?
+      )`;
+
+    // Procesar cada cobro
+    for (const cobro of cobrosArray) {
+      const insertValues = [
+        cobro.CodigoCliente,
+        cobro.Tipo,
+        cobro.Numero,
+        cobro.Vencimiento,
+        cobro.FechaDocumento,
+        cobro.Comprobante,
+        cobro.Importe,
+        cobro.TipoDocCancela,
+        cobro.Vendedor,
+        cobro.Importe2,
+        cobro.Cambio,
+        cobro.Moneda,
+        cobro.IdMoneda,
+        cobro.CodigoBanco,
+        cobro.NumeroReferencia,
+        cobro.CodigoBancoOrigen,
+        cobro.CodigoCaja
+      ];
+
+      // Ejecutar la inserción
+      await pool.query(insertQuery, insertValues);
+    }
+
+    // Respuesta exitosa
+    res.status(200).json({ 
+      message: 'Cobro(s) registrado(s) exitosamente',
+      totalRegistros: cobrosArray.length 
+    });
+
+  } catch (error) {
+    console.error('Error al registrar cobro(s):', error);
+    res.status(500).json({ 
+      error: 'Error al registrar cobro(s)',
+      detalles: error.message 
+    });
+  }
+});
+
+
+
 app.get('/create', async (req, res) => {
   const result = await pool.query('INSERT INTO Pedidos VALUES ("PE000002", "2023-03-26 14:35:41", "2023-03-26 14:35:41", "V-26036875", 250.00, 0.00, 40.00, 0.00, 290.00, 0.00, "001", "BLA BLA BLA", "A", "01", NULL, "PE", "LUIS", 25.00, "$", 10.00, 0.00, 1.60, 0.00, 11.60, 2, NULL)')
   res.json(result)
