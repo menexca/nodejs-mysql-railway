@@ -1235,13 +1235,15 @@ app.post('/RegistrarCobros', async (req, res) => {
         CodigoCliente, Tipo, Numero, Emision, 
         Vencimiento, FechaDocumento, Comprobante, Importe, 
         TipoDocCancela, Vendedor, Importe2, Cambio, Moneda, 
-        IdMoneda, CodigoBanco, NumeroReferencia, CodigoBancoOrigen, CodigoCaja
+        IdMoneda, CodigoBanco, NumeroReferencia, CodigoBancoOrigen, CodigoCaja,
+        TotalCobro, TotalCobro2
       ) 
       VALUES (
         ?, ?, ?, DATE_SUB(NOW(), INTERVAL 4 HOUR), 
         ?, ?, 'PruebaCM', ?, 
         ?, ?, ?, ?, ?, 
-        ?, ?, ?, ?, '00001'
+        ?, ?, ?, ?, '00001',
+        ?, ?
       )`;
 
     // Procesar cada cobro
@@ -1261,7 +1263,9 @@ app.post('/RegistrarCobros', async (req, res) => {
         cobro.IdMoneda,
         cobro.CodigoBanco,
         cobro.NumeroReferencia,
-        cobro.CodigoBancoOrigen
+        cobro.CodigoBancoOrigen,
+        cobro.TotalCobro,
+        cobro.TotalCobro2
       ];
 
       // Ejecutar la inserción
