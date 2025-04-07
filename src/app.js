@@ -1241,6 +1241,20 @@ app.post('/RegistrarCobros', async (req, res) => {
     const [contadorResult] = await pool.query(selectContadorQuery);
     const nuevoContador = contadorResult[0].Contador;
 
+    const selectContadorAAQuery = `
+      SELECT 
+        IFNULL(
+            (SELECT CONCAT('AV', LPAD(RIGHT(LEFT(Numero, 8), 6) + 1, 6, '0')) as Contador
+            FROM ClientesMovimientos
+            WHERE RIGHT(LEFT(Comprobante, 8), 6) REGEXP '^[0-9]{6}$'
+            and Tipo='AA'
+            ORDER BY Numero DESC
+            LIMIT 1),
+            'AV000001'
+        ) as Contador;
+    `;
+    const [contadorAAResult] = await pool.query(selectContadorAAQuery);
+    const nuevoContadorAA = contadorAAResult[0].Contador;
 
 
     
@@ -1269,7 +1283,8 @@ app.post('/RegistrarCobros', async (req, res) => {
       const insertValues = [
         cobro.CodigoCliente,
         cobro.Tipo,
-        cobro.Numero,
+        //cobro.Numero,
+        cobro.Tipo === 'AA' ? nuevoContadorAA : cobro.Numero, // Condición para el número
         cobro.Vencimiento,
         cobro.FechaDocumento,
         nuevoContador,
