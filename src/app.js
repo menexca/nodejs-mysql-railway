@@ -383,7 +383,7 @@ app.post('/CrearPedido', async (req, res) => {
 
 app.post('/CrearPedido2', async (req, res) => {
   try {
-    const pedidoCompleto = req.body; // Obtén los datos completos del pedido enviados en la solicitud POST
+    const pedidoCompleto = req.body; // Obtén los datos completos del pedido enviados en la solicitud POSTaa
 
     const selectContadorQuery = `
       SELECT CONCAT('AS-', LPAD(RIGHT(LEFT(Numero,8),5)+1, 5, '0')) as Contador
@@ -1225,6 +1225,24 @@ app.post('/RegistrarCobros', async (req, res) => {
   try {
     // Obtener los datos de cobro(s) del body
     const cobros = req.body;
+
+
+    const selectContadorQuery = `
+      SELECT 
+        IFNULL(
+            (SELECT CONCAT('CV', LPAD(RIGHT(LEFT(Comprobante, 8), 6) + 1, 6, '0')) as Contador
+            FROM ClientesMovimientos
+            WHERE RIGHT(LEFT(Comprobante, 8), 6) REGEXP '^[0-9]{6}$'
+            ORDER BY Numero DESC
+            LIMIT 1),
+            'CV000001'
+        ) as Contador
+    `;
+    const [contadorResult] = await pool.query(selectContadorQuery);
+    const nuevoContador = contadorResult[0].Contador;
+
+
+
     
     // Si es un solo cobro (objeto), lo convertimos a array para manejar uniformemente
     const cobrosArray = Array.isArray(cobros) ? cobros : [cobros];
@@ -1240,7 +1258,7 @@ app.post('/RegistrarCobros', async (req, res) => {
       ) 
       VALUES (
         ?, ?, ?, DATE_SUB(NOW(), INTERVAL 4 HOUR), 
-        ?, ?, 'PruebaCM', ?, 
+        ?, ?, ?, ?, 
         ?, ?, ?, ?, ?, 
         ?, ?, ?, ?, '00001',
         ?, ?, ?
@@ -1254,6 +1272,7 @@ app.post('/RegistrarCobros', async (req, res) => {
         cobro.Numero,
         cobro.Vencimiento,
         cobro.FechaDocumento,
+        nuevoContador,
         cobro.Importe,
         cobro.TipoDocCancela,
         cobro.Vendedor,
