@@ -1233,7 +1233,7 @@ app.post('/RegistrarCobros', async (req, res) => {
             (SELECT CONCAT('CV', LPAD(RIGHT(LEFT(Comprobante, 8), 6) + 1, 6, '0')) as Contador
             FROM ClientesMovimientos
             WHERE RIGHT(LEFT(Comprobante, 8), 6) REGEXP '^[0-9]{6}$'
-            ORDER BY Numero DESC
+            ORDER BY Comprobante DESC
             LIMIT 1),
             'CV000001'
         ) as Contador
