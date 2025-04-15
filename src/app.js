@@ -1152,7 +1152,8 @@ app.get('/CuentasPorCobrar/Cliente/:CodigoCliente', async (req, res) => {
       Cambio, 
       ifnull(PlanTrabajo,0) as PlanTrabajo,
       ifnull(c.PorcentajeIVA,0) as PorcentajeRetencion,
-      RetencionAplicada
+      RetencionAplicada,
+      ifnull(cxc.Tarifa,'A') as Tarifa
     from CuentasPorCobrar cxc 
     left join Clientes c on c.CodigoCliente=cxc.CodigoCliente 
     left join Vendedores v on v.codigo=cxc.vendedor
