@@ -1351,11 +1351,13 @@ app.get('/HistorialCobranzas', async (req, res) => {
         MAX(cm.TotalCobro) AS TotalCobro,
         MAX(cm.TotalCobro2) AS TotalCobro2,
         MAX(cm.FormaPago) AS FormaPago,
+        max(v.nombre) as NombreVendedor,
         ifnull(max(Comentarios),'') as Comentarios
       FROM ClientesMovimientos cm
       LEFT JOIN Clientes c ON c.CodigoCliente = cm.CodigoCliente
       LEFT JOIN Bancos b ON b.CodigoBanco = cm.CodigoBanco
       LEFT JOIN EntidadesBancarias eb ON eb.CodigoBanco = cm.CodigoBancoOrigen
+      LEFT JOIN Vendedores v on v.codigo=cm.Vendedor
       WHERE DATE(cm.Emision) = ?
       GROUP BY cm.CodigoCliente, cm.Comprobante
       ORDER BY Emision ASC
