@@ -1358,7 +1358,7 @@ app.get('/HistorialCobranzas', async (req, res) => {
       LEFT JOIN EntidadesBancarias eb ON eb.CodigoBanco = cm.CodigoBancoOrigen
       WHERE DATE(cm.Emision) = ?
       GROUP BY cm.CodigoCliente, cm.Comprobante
-      ORDER BY cm.Emision ASC
+      ORDER BY Emision ASC
     `;
 
     const [rows] = await pool.query(queryPrincipal, [fecha]);
