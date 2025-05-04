@@ -1327,6 +1327,61 @@ app.post('/RegistrarCobros', async (req, res) => {
 });
 
 
+// Endpoint para obtener historial de cobranza
+app.get('/HistorialCobranzas', async (req, res) => {
+  try {
+    const { fecha } = req.query;
+
+    // Validar que el parámetro de fecha sea proporcionado
+    if (!fecha) {
+      return res.status(400).json({ error: 'El parámetro "fecha" es requerido en formato YYYY-MM-DD.' });
+    }
+
+    // Validar formato de la fecha (opcional pero recomendado)
+    /*
+    const fechaRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!fechaRegex.test(fecha)) {
+      return res.status(400).json({ error: 'El parámetro "fecha" debe tener el formato YYYY-MM-DD.' });
+    }
+    */
+
+    // Consulta para filtrar por fecha
+    const query = `
+      SELECT
+        cm.CodigoCliente,
+        max(c.Nombre) as NombreCliente,
+        cm.Comprobante,
+        max(cm.Emision) as Emision,
+        max(cm.FechaDocumento) as FechaTransferencia,
+        max(cm.Cambio) as Cambio,
+        max(cm.Moneda) as Moneda,
+        max(eb.Nombre) as NombreBancoOrigen,
+        max(b.Nombre) as NombreBanco,
+        max(cm.NumeroReferencia) as NumeroReferencia,
+        max(cm.TotalCobro) as TotalCobro,
+        max(cm.TotalCobro2) as TotalCobro2,
+        max(cm.FormaPago) as FormaPago
+      FROM ClientesMovimientos cm
+      left join Clientes c on c.CodigoCliente = cm.CodigoCliente
+      left join Bancos b on b.CodigoBanco = cm.CodigoBanco
+      left join EntidadesBancarias eb on eb.CodigoBanco = cm.CodigoBancoOrigen
+      GROUP BY cm.CodigoCliente, cm.Comprobante
+      WHERE YEAR(cm.Emision) = YEAR(?) AND MONTH(cm.Emision) = MONTH(?)
+      ORDER BY cm.Emision ASC
+    `;
+    
+    // Ejecutar consulta
+    const [rows] = await pool.query(query, [fecha,fecha]);
+
+    // Devolver resultados
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Error al obtener la información', details: error.message });
+  }
+});
+
+
 
 app.get('/create', async (req, res) => {
   const result = await pool.query('INSERT INTO Pedidos VALUES ("PE000002", "2023-03-26 14:35:41", "2023-03-26 14:35:41", "V-26036875", 250.00, 0.00, 40.00, 0.00, 290.00, 0.00, "001", "BLA BLA BLA", "A", "01", NULL, "PE", "LUIS", 25.00, "$", 10.00, 0.00, 1.60, 0.00, 11.60, 2, NULL)')
