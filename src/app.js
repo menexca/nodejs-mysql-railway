@@ -1332,54 +1332,60 @@ app.get('/HistorialCobranzas', async (req, res) => {
   try {
     const { fecha } = req.query;
 
-    // Validar que el parámetro de fecha sea proporcionado
     if (!fecha) {
       return res.status(400).json({ error: 'El parámetro "fecha" es requerido en formato YYYY-MM-DD.' });
     }
 
-    // Validar formato de la fecha (opcional pero recomendado)
-    /*
-    const fechaRegex = /^\d{4}-\d{2}-\d{2}$/;
-    if (!fechaRegex.test(fecha)) {
-      return res.status(400).json({ error: 'El parámetro "fecha" debe tener el formato YYYY-MM-DD.' });
-    }
-    */
-
-    // Consulta para filtrar por fecha
-    const query = `
+    const queryPrincipal = `
       SELECT
         cm.CodigoCliente,
-        max(c.Nombre) as NombreCliente,
+        MAX(c.Nombre) AS NombreCliente,
         cm.Comprobante,
-        max(cm.Emision) as Emision,
-        max(cm.FechaDocumento) as FechaTransferencia,
-        max(cm.Cambio) as Cambio,
-        max(cm.Moneda) as Moneda,
-        max(eb.Nombre) as NombreBancoOrigen,
-        max(b.Nombre) as NombreBanco,
-        max(cm.NumeroReferencia) as NumeroReferencia,
-        max(cm.TotalCobro) as TotalCobro,
-        max(cm.TotalCobro2) as TotalCobro2,
-        max(cm.FormaPago) as FormaPago
+        MAX(cm.Emision) AS Emision,
+        MAX(cm.FechaDocumento) AS FechaTransferencia,
+        MAX(cm.Cambio) AS Cambio,
+        MAX(cm.Moneda) AS Moneda,
+        MAX(eb.Nombre) AS NombreBancoOrigen,
+        MAX(b.Nombre) AS NombreBanco,
+        MAX(cm.NumeroReferencia) AS NumeroReferencia,
+        MAX(cm.TotalCobro) AS TotalCobro,
+        MAX(cm.TotalCobro2) AS TotalCobro2,
+        MAX(cm.FormaPago) AS FormaPago,
+        ifnull(max(Comentarios),'') as Comentarios
       FROM ClientesMovimientos cm
-      left join Clientes c on c.CodigoCliente = cm.CodigoCliente
-      left join Bancos b on b.CodigoBanco = cm.CodigoBanco
-      left join EntidadesBancarias eb on eb.CodigoBanco = cm.CodigoBancoOrigen
-      WHERE YEAR(cm.Emision) = YEAR(?) AND MONTH(cm.Emision) = MONTH(?)
+      LEFT JOIN Clientes c ON c.CodigoCliente = cm.CodigoCliente
+      LEFT JOIN Bancos b ON b.CodigoBanco = cm.CodigoBanco
+      LEFT JOIN EntidadesBancarias eb ON eb.CodigoBanco = cm.CodigoBancoOrigen
+      WHERE DATE(cm.Emision) = ?
       GROUP BY cm.CodigoCliente, cm.Comprobante
-      ORDER BY Emision ASC
+      ORDER BY cm.Emision ASC
     `;
-    
-    // Ejecutar consulta
-    const [rows] = await pool.query(query, [fecha,fecha]);
 
-    // Devolver resultados
-    res.status(200).json(rows);
+    const [rows] = await pool.query(queryPrincipal, [fecha]);
+
+    // Para cada resultado, obtener las facturas relacionadas
+    const resultadosConFacturas = await Promise.all(rows.map(async (row) => {
+      const queryFacturas = `
+        SELECT Tipo, Numero, Importe, Cambio, Importe2
+        FROM ClientesMovimientos
+        WHERE Comprobante = ?
+      `;
+
+      const [facturas] = await pool.query(queryFacturas, [row.Comprobante]);
+
+      return {
+        ...row,
+        Facturas: facturas
+      };
+    }));
+
+    res.status(200).json(resultadosConFacturas);
   } catch (error) {
     console.error('Error:', error);
     res.status(500).json({ error: 'Error al obtener la información', details: error.message });
   }
 });
+
 
 
 
