@@ -1365,8 +1365,8 @@ app.get('/HistorialCobranzas', async (req, res) => {
       left join Clientes c on c.CodigoCliente = cm.CodigoCliente
       left join Bancos b on b.CodigoBanco = cm.CodigoBanco
       left join EntidadesBancarias eb on eb.CodigoBanco = cm.CodigoBancoOrigen
-      GROUP BY cm.CodigoCliente, cm.Comprobante
       WHERE YEAR(cm.Emision) = YEAR(?) AND MONTH(cm.Emision) = MONTH(?)
+      GROUP BY cm.CodigoCliente, cm.Comprobante
       ORDER BY cm.Emision ASC
     `;
     
