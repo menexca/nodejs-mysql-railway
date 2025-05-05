@@ -1346,6 +1346,139 @@ app.get('/HistorialCobranzas', async (req, res) => {
         MAX(cm.Cambio) AS Cambio,
         MAX(cm.Moneda) AS Moneda,
         ifnull(MAX(eb.Nombre),'') AS NombreBancoOrigen,
+        ifnull(
+          MAX(b.Nombre),
+          (case 
+            when MAX(cm.FormaPago)='EFE' AND MAX(cm.Moneda)='BsS'
+              then 'EFECTIVO - BOLIVARES'
+            when MAX(cm.FormaPago)='EFE' AND MAX(cm.Moneda)='$'
+              then 'EFECTIVO - DOLARES'
+            ELSE '' 
+          end)
+        ) AS NombreBanco,
+        MAX(cm.NumeroReferencia) AS NumeroReferencia,
+        MAX(cm.TotalCobro) AS TotalCobro,
+        MAX(cm.TotalCobro2) AS TotalCobro2,
+        MAX(cm.FormaPago) AS FormaPago,
+        max(v.nombre) as NombreVendedor,
+        ifnull(max(Comentarios),'') as Comentarios
+      FROM ClientesMovimientos cm
+      LEFT JOIN Clientes c ON c.CodigoCliente = cm.CodigoCliente
+      LEFT JOIN Bancos b ON b.CodigoBanco = cm.CodigoBanco
+      LEFT JOIN EntidadesBancarias eb ON eb.CodigoBanco = cm.CodigoBancoOrigen
+      LEFT JOIN Vendedores v on v.codigo=cm.Vendedor
+      WHERE DATE(cm.Emision) = ?
+      GROUP BY cm.CodigoCliente, cm.Comprobante
+      ORDER BY Emision ASC
+    `;
+
+    const [rows] = await pool.query(queryPrincipal, [fecha]);
+
+    // Para cada resultado, obtener las facturas relacionadas
+    const resultadosConFacturas = await Promise.all(rows.map(async (row) => {
+      const queryFacturas = `
+        SELECT Tipo, Numero, Importe, Cambio, Importe2
+        FROM ClientesMovimientos
+        WHERE Comprobante = ?
+      `;
+
+      const [facturas] = await pool.query(queryFacturas, [row.Comprobante]);
+
+      return {
+        ...row,
+        Facturas: facturas
+      };
+    }));
+
+    res.status(200).json(resultadosConFacturas);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Error al obtener la información', details: error.message });
+  }
+});
+
+
+// Endpoint para obtener historial de cobranza por Supervisor
+app.get('/HistorialCobranzasSupervisor', async (req, res) => {
+  try {
+    const { fecha } = req.query;
+
+    if (!fecha) {
+      return res.status(400).json({ error: 'El parámetro "fecha" es requerido en formato YYYY-MM-DD.' });
+    }
+
+    const queryPrincipal = `
+      SELECT
+        cm.CodigoCliente,
+        MAX(c.Nombre) AS NombreCliente,
+        cm.Comprobante,
+        MAX(cm.Emision) AS Emision,
+        MAX(cm.FechaDocumento) AS FechaTransferencia,
+        MAX(cm.Cambio) AS Cambio,
+        MAX(cm.Moneda) AS Moneda,
+        ifnull(MAX(eb.Nombre),'') AS NombreBancoOrigen,
+        ifnull(MAX(b.Nombre),'') AS NombreBanco,
+        MAX(cm.NumeroReferencia) AS NumeroReferencia,
+        MAX(cm.TotalCobro) AS TotalCobro,
+        MAX(cm.TotalCobro2) AS TotalCobro2,
+        MAX(cm.FormaPago) AS FormaPago,
+        max(v.nombre) as NombreVendedor,
+        ifnull(max(Comentarios),'') as Comentarios
+      FROM ClientesMovimientos cm
+      LEFT JOIN Clientes c ON c.CodigoCliente = cm.CodigoCliente
+      LEFT JOIN Bancos b ON b.CodigoBanco = cm.CodigoBanco
+      LEFT JOIN EntidadesBancarias eb ON eb.CodigoBanco = cm.CodigoBancoOrigen
+      LEFT JOIN Vendedores v on v.codigo=cm.Vendedor
+      WHERE DATE(cm.Emision) = ?
+      GROUP BY cm.CodigoCliente, cm.Comprobante
+      ORDER BY Emision ASC
+    `;
+
+    const [rows] = await pool.query(queryPrincipal, [fecha]);
+
+    // Para cada resultado, obtener las facturas relacionadas
+    const resultadosConFacturas = await Promise.all(rows.map(async (row) => {
+      const queryFacturas = `
+        SELECT Tipo, Numero, Importe, Cambio, Importe2
+        FROM ClientesMovimientos
+        WHERE Comprobante = ?
+      `;
+
+      const [facturas] = await pool.query(queryFacturas, [row.Comprobante]);
+
+      return {
+        ...row,
+        Facturas: facturas
+      };
+    }));
+
+    res.status(200).json(resultadosConFacturas);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Error al obtener la información', details: error.message });
+  }
+});
+
+
+// Endpoint para obtener historial de cobranza
+app.get('/HistorialCobranzasVendedor', async (req, res) => {
+  try {
+    const { fecha } = req.query;
+
+    if (!fecha) {
+      return res.status(400).json({ error: 'El parámetro "fecha" es requerido en formato YYYY-MM-DD.' });
+    }
+
+    const queryPrincipal = `
+      SELECT
+        cm.CodigoCliente,
+        MAX(c.Nombre) AS NombreCliente,
+        cm.Comprobante,
+        MAX(cm.Emision) AS Emision,
+        MAX(cm.FechaDocumento) AS FechaTransferencia,
+        MAX(cm.Cambio) AS Cambio,
+        MAX(cm.Moneda) AS Moneda,
+        ifnull(MAX(eb.Nombre),'') AS NombreBancoOrigen,
         ifnull(MAX(b.Nombre),'') AS NombreBanco,
         MAX(cm.NumeroReferencia) AS NumeroReferencia,
         MAX(cm.TotalCobro) AS TotalCobro,
