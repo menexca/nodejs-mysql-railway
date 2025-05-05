@@ -1076,6 +1076,7 @@ app.get('/CuentasPorCobrar', async (req, res) => {
   res.json(rows)
 })
 
+
 // obtener las cxc de un vendedor
 app.get('/CuentasPorCobrar/:Vendedor', async (req, res) => {
   const vendedor = req.params.Vendedor;
