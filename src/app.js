@@ -80,7 +80,7 @@ app.get('/ProductosUnificados/:FechaSync', async (req, res) => {
 
 // Obtener todos los clientes
 app.get('/Clientes', async (req, res) => {
-  const [rows] = await pool.query(`SELECT CodigoCliente, Nombre, CONCAT(CAST((CodigoCliente) AS CHAR),' ',Nombre) as NombreBusqueda, (case when RazonSocial is null or RazonSocial='null' then '' else RazonSocial end) as RazonSocial, Direccion, (case when DiasVisita not in (1,2,3,4,5,6,7) then 8 else DiasVisita end) as DiasVisita, IFNULL(Telefonos,'') as Telefonos, IFNULL(LimiteCredito,0) as LimiteCredito, IFNULL(SaldoMonedaTotal,0) AS SaldoMonedaTotal, IFNULL((case when SaldoMonedaVencido>SaldoMonedaTotal then SaldoMonedaTotal else SaldoMonedaVencido end),0) as SaldoMonedaVencido, date(ultimopago) as ultimopago, ProximoVencer, 
+  const [rows] = await pool.query(`SELECT CodigoCliente, Nombre, CONCAT(CAST((CodigoCliente) AS CHAR),' ',Nombre) as NombreBusqueda, (case when RazonSocial is null or RazonSocial='null' then '' else RazonSocial end) as RazonSocial, Direccion, (case when DiasVisita not in (1,2,3,4,5,6,7) then 8 else DiasVisita end) as DiasVisita, (case when Telefonos='null' or Telefonos is null then '' else Telefonos end) as Telefonos, IFNULL(LimiteCredito,0) as LimiteCredito, IFNULL(SaldoMonedaTotal,0) AS SaldoMonedaTotal, IFNULL((case when SaldoMonedaVencido>SaldoMonedaTotal then SaldoMonedaTotal else SaldoMonedaVencido end),0) as SaldoMonedaVencido, date(ultimopago) as ultimopago, ProximoVencer, 
 
   IFNULL(C.PromedioDiasPago,0) AS PromedioDiasPago,
 
@@ -98,7 +98,7 @@ app.get('/Clientes', async (req, res) => {
 // Filtrar clientes por vendedor
 app.get('/Clientes/:Vendedor', async (req, res) => {
   const vendedor = req.params.Vendedor;
-  const query = `SELECT CodigoCliente, Nombre, CONCAT(CAST((CodigoCliente) AS CHAR),' ',Nombre) as NombreBusqueda, (case when RazonSocial is null or RazonSocial='null' then '' else RazonSocial end) as RazonSocial, Direccion, (case when DiasVisita not in (1,2,3,4,5,6,7) then 8 else DiasVisita end) as DiasVisita, IFNULL(Telefonos,'') as Telefonos, IFNULL(LimiteCredito,0) as LimiteCredito, IFNULL(SaldoMonedaTotal,0) AS SaldoMonedaTotal, IFNULL((case when SaldoMonedaVencido>SaldoMonedaTotal then SaldoMonedaTotal else SaldoMonedaVencido end),0) as SaldoMonedaVencido, date(ultimopago) as ultimopago, ProximoVencer, 
+  const query = `SELECT CodigoCliente, Nombre, CONCAT(CAST((CodigoCliente) AS CHAR),' ',Nombre) as NombreBusqueda, (case when RazonSocial is null or RazonSocial='null' then '' else RazonSocial end) as RazonSocial, Direccion, (case when DiasVisita not in (1,2,3,4,5,6,7) then 8 else DiasVisita end) as DiasVisita, (case when Telefonos='null' or Telefonos is null then '' else Telefonos end) as Telefonos, IFNULL(LimiteCredito,0) as LimiteCredito, IFNULL(SaldoMonedaTotal,0) AS SaldoMonedaTotal, IFNULL((case when SaldoMonedaVencido>SaldoMonedaTotal then SaldoMonedaTotal else SaldoMonedaVencido end),0) as SaldoMonedaVencido, date(ultimopago) as ultimopago, ProximoVencer, 
 
   IFNULL(C.PromedioDiasPago,0) AS PromedioDiasPago,
 
@@ -123,7 +123,7 @@ app.get('/Clientes/:Vendedor', async (req, res) => {
 // Filtrar clientes por SUPERVISOR  
 app.get('/ClientesSupervisor/:Vendedor', async (req, res) => {
   const vendedor = req.params.Vendedor;
-  const query = `SELECT CodigoCliente, Nombre, CONCAT(CAST((CodigoCliente) AS CHAR),' ',Nombre) as NombreBusqueda, (case when RazonSocial is null or RazonSocial='null' then '' else RazonSocial end) as RazonSocial, Direccion, (case when DiasVisita not in (1,2,3,4,5,6,7) then 8 else DiasVisita end) as DiasVisita, IFNULL(Telefonos,'') as Telefonos, IFNULL(LimiteCredito,0) as LimiteCredito, IFNULL(SaldoMonedaTotal,0) AS SaldoMonedaTotal, IFNULL((case when SaldoMonedaVencido>SaldoMonedaTotal then SaldoMonedaTotal else SaldoMonedaVencido end),0) as SaldoMonedaVencido, date(ultimopago) as ultimopago, ProximoVencer, 
+  const query = `SELECT CodigoCliente, Nombre, CONCAT(CAST((CodigoCliente) AS CHAR),' ',Nombre) as NombreBusqueda, (case when RazonSocial is null or RazonSocial='null' then '' else RazonSocial end) as RazonSocial, Direccion, (case when DiasVisita not in (1,2,3,4,5,6,7) then 8 else DiasVisita end) as DiasVisita, (case when Telefonos='null' or Telefonos is null then '' else Telefonos end) as Telefonos, IFNULL(LimiteCredito,0) as LimiteCredito, IFNULL(SaldoMonedaTotal,0) AS SaldoMonedaTotal, IFNULL((case when SaldoMonedaVencido>SaldoMonedaTotal then SaldoMonedaTotal else SaldoMonedaVencido end),0) as SaldoMonedaVencido, date(ultimopago) as ultimopago, ProximoVencer, 
 
   IFNULL(C.PromedioDiasPago,0) AS PromedioDiasPago,
 
@@ -149,7 +149,7 @@ app.get('/ClientesSupervisor/:Vendedor', async (req, res) => {
 app.get('/ClientesFechaSync/:Vendedor/:FechaSync', async (req, res) => {
   const vendedor = req.params.Vendedor;
   const fechaSync = req.params.FechaSync;
-  const query = `SELECT CodigoCliente, Nombre, CONCAT(CAST((CodigoCliente) AS CHAR),' ',Nombre) as NombreBusqueda, (case when RazonSocial is null or RazonSocial='null' then '' else RazonSocial end) as RazonSocial, Direccion, (case when DiasVisita not in (1,2,3,4,5,6,7) then 8 else DiasVisita end) as DiasVisita, IFNULL(Telefonos,'') as Telefonos, IFNULL(LimiteCredito,0) as LimiteCredito, IFNULL(SaldoMonedaTotal,0) AS SaldoMonedaTotal, IFNULL((case when SaldoMonedaVencido>SaldoMonedaTotal then SaldoMonedaTotal else SaldoMonedaVencido end),0) as SaldoMonedaVencido, date(ultimopago) as ultimopago, ProximoVencer, 
+  const query = `SELECT CodigoCliente, Nombre, CONCAT(CAST((CodigoCliente) AS CHAR),' ',Nombre) as NombreBusqueda, (case when RazonSocial is null or RazonSocial='null' then '' else RazonSocial end) as RazonSocial, Direccion, (case when DiasVisita not in (1,2,3,4,5,6,7) then 8 else DiasVisita end) as DiasVisita, (case when Telefonos='null' or Telefonos is null then '' else Telefonos end) as Telefonos, IFNULL(LimiteCredito,0) as LimiteCredito, IFNULL(SaldoMonedaTotal,0) AS SaldoMonedaTotal, IFNULL((case when SaldoMonedaVencido>SaldoMonedaTotal then SaldoMonedaTotal else SaldoMonedaVencido end),0) as SaldoMonedaVencido, date(ultimopago) as ultimopago, ProximoVencer, 
 
   IFNULL(C.PromedioDiasPago,0) AS PromedioDiasPago,
 
@@ -175,7 +175,7 @@ app.get('/ClientesFechaSync/:Vendedor/:FechaSync', async (req, res) => {
 app.get('/ClientesSupervisorFechaSync/:Vendedor/:FechaSync', async (req, res) => {
   const vendedor = req.params.Vendedor;
   const fechaSync = req.params.FechaSync;
-  const query = `SELECT CodigoCliente, Nombre, CONCAT(CAST((CodigoCliente) AS CHAR),' ',Nombre) as NombreBusqueda, (case when RazonSocial is null or RazonSocial='null' then '' else RazonSocial end) as RazonSocial, Direccion, (case when DiasVisita not in (1,2,3,4,5,6,7) then 8 else DiasVisita end) as DiasVisita, IFNULL(Telefonos,'') as Telefonos, IFNULL(LimiteCredito,0) as LimiteCredito, IFNULL(SaldoMonedaTotal,0) AS SaldoMonedaTotal, IFNULL((case when SaldoMonedaVencido>SaldoMonedaTotal then SaldoMonedaTotal else SaldoMonedaVencido end),0) as SaldoMonedaVencido, date(ultimopago) as ultimopago, ProximoVencer, 
+  const query = `SELECT CodigoCliente, Nombre, CONCAT(CAST((CodigoCliente) AS CHAR),' ',Nombre) as NombreBusqueda, (case when RazonSocial is null or RazonSocial='null' then '' else RazonSocial end) as RazonSocial, Direccion, (case when DiasVisita not in (1,2,3,4,5,6,7) then 8 else DiasVisita end) as DiasVisita, (case when Telefonos='null' or Telefonos is null then '' else Telefonos end) as Telefonos, IFNULL(LimiteCredito,0) as LimiteCredito, IFNULL(SaldoMonedaTotal,0) AS SaldoMonedaTotal, IFNULL((case when SaldoMonedaVencido>SaldoMonedaTotal then SaldoMonedaTotal else SaldoMonedaVencido end),0) as SaldoMonedaVencido, date(ultimopago) as ultimopago, ProximoVencer, 
 
   IFNULL(C.PromedioDiasPago,0) AS PromedioDiasPago,
 
@@ -200,7 +200,7 @@ app.get('/ClientesSupervisorFechaSync/:Vendedor/:FechaSync', async (req, res) =>
 // Filtrar clientes por FechaSync
 app.get('/ClientesFechaSync/:FechaSync', async (req, res) => {
   const fechaSync = req.params.FechaSync;
-  const query = `SELECT CodigoCliente, Nombre, CONCAT(CAST((CodigoCliente) AS CHAR),' ',Nombre) as NombreBusqueda, (case when RazonSocial is null or RazonSocial='null' then '' else RazonSocial end) as RazonSocial, Direccion, (case when DiasVisita not in (1,2,3,4,5,6,7) then 8 else DiasVisita end) as DiasVisita, IFNULL(Telefonos,'') as Telefonos, IFNULL(LimiteCredito,0) as LimiteCredito, IFNULL(SaldoMonedaTotal,0) AS SaldoMonedaTotal, IFNULL((case when SaldoMonedaVencido>SaldoMonedaTotal then SaldoMonedaTotal else SaldoMonedaVencido end),0) as SaldoMonedaVencido, date(ultimopago) as ultimopago, ProximoVencer, 
+  const query = `SELECT CodigoCliente, Nombre, CONCAT(CAST((CodigoCliente) AS CHAR),' ',Nombre) as NombreBusqueda, (case when RazonSocial is null or RazonSocial='null' then '' else RazonSocial end) as RazonSocial, Direccion, (case when DiasVisita not in (1,2,3,4,5,6,7) then 8 else DiasVisita end) as DiasVisita, (case when Telefonos='null' or Telefonos is null then '' else Telefonos end) as Telefonos, IFNULL(LimiteCredito,0) as LimiteCredito, IFNULL(SaldoMonedaTotal,0) AS SaldoMonedaTotal, IFNULL((case when SaldoMonedaVencido>SaldoMonedaTotal then SaldoMonedaTotal else SaldoMonedaVencido end),0) as SaldoMonedaVencido, date(ultimopago) as ultimopago, ProximoVencer, 
 
   IFNULL(C.PromedioDiasPago,0) AS PromedioDiasPago,
 
@@ -225,7 +225,7 @@ app.get('/ClientesFechaSync/:FechaSync', async (req, res) => {
 // Filtrar clientes por vendedor
 app.get('/ClientesEspecifico/:CodigoCliente', async (req, res) => {
   const codigoCliente = req.params.CodigoCliente;
-  const query = `SELECT CodigoCliente, Nombre, CONCAT(CAST((CodigoCliente) AS CHAR),' ',Nombre) as NombreBusqueda, (case when RazonSocial is null or RazonSocial='null' then '' else RazonSocial end) as RazonSocial, Direccion, (case when DiasVisita not in (1,2,3,4,5,6,7) then 8 else DiasVisita end) as DiasVisita, IFNULL(Telefonos,'') as Telefonos, IFNULL(LimiteCredito,0) as LimiteCredito, IFNULL(SaldoMonedaTotal,0) AS SaldoMonedaTotal, IFNULL((case when SaldoMonedaVencido>SaldoMonedaTotal then SaldoMonedaTotal else SaldoMonedaVencido end),0) as SaldoMonedaVencido, date(ultimopago) as ultimopago, ProximoVencer, 
+  const query = `SELECT CodigoCliente, Nombre, CONCAT(CAST((CodigoCliente) AS CHAR),' ',Nombre) as NombreBusqueda, (case when RazonSocial is null or RazonSocial='null' then '' else RazonSocial end) as RazonSocial, Direccion, (case when DiasVisita not in (1,2,3,4,5,6,7) then 8 else DiasVisita end) as DiasVisita, (case when Telefonos='null' or Telefonos is null then '' else Telefonos end) as Telefonos, IFNULL(LimiteCredito,0) as LimiteCredito, IFNULL(SaldoMonedaTotal,0) AS SaldoMonedaTotal, IFNULL((case when SaldoMonedaVencido>SaldoMonedaTotal then SaldoMonedaTotal else SaldoMonedaVencido end),0) as SaldoMonedaVencido, date(ultimopago) as ultimopago, ProximoVencer, 
 
   IFNULL(C.PromedioDiasPago,0) AS PromedioDiasPago,
 
@@ -880,7 +880,7 @@ app.get('/PlanificacionesRenglones/:Numero', async (req, res) => {
     PR.CodigoCliente,
     C.Nombre as NombreCliente,
     C.Direccion,
-    IFNULL(C.Telefonos,'') as Telefonos,
+    (case when C.Telefonos='null' or C.Telefonos is null then '' else C.Telefonos end) as Telefonos,
     C.SaldoMonedaTotal,
     C.SaldoMonedaVencido,
     C.ProximoVencer,
